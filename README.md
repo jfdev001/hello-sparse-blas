@@ -1,5 +1,10 @@
 # hello-sparse-blas
 
+TODO: On ubuntu, download HPC toolkit, more than just MKL since that way
+you don't have to worry about installations in different places!!
+
+https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit-download.html?packages=hpc-toolkit&hpc-toolkit-os=linux&hpc-toolkit-lin=apt
+
 Demonstrate sparse matrix-vector multiplication with Intel MKL.
 
 First you have to get any dependencies.
@@ -12,18 +17,15 @@ git submodule update --init
 Then, you can configure the project. 
 
 ```shell
-# Build on ubuntu 22.04 LTS with intel install via apt get
-cmake -S . -B build -DCMAKE_Fortran_COMPILER=ifx
+# Build with intel install via apt 
+./config_cmake_intel_ubuntu
 ```
 
 Alternatively, if on a system where you need to specify a different MKL library
 and MKL include path, you can do this with the below (e.g., for DKRZ Levante):
 
 ```shell
-cmake -S . -B build \
-    -DCMAKE_Fortran_COMPILER=ifx \
-    -DMKLLIB=/sw/intel/oneapi/mkl/2021.3.0/lib/intel64\
-    -DMKLINCLUDE=/sw/intel/oneapi/mkl/2021.3.0/include
+./config_cmake_intel_levante
 ```
 
 Lastly, you build the project and execute an example binary.

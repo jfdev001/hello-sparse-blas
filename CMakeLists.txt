@@ -16,7 +16,7 @@ endif()
 # https://cliutils.gitlab.io/modern-cmake/chapters/testing.html
 #enable_testing() # conditionally!
 
-# These can be changed with -D... flag during build  
+# These can be changed with -D... flag during build config 
 set(MKLLIB ${MKLROOT}/lib CACHE PATH "Path to Intel MKL Libraries")
 set(MKLINCLUDE ${MKLROOT}/include CACHE PATH "Path to Intel MKL include files")
 
@@ -33,3 +33,4 @@ build_submodule(extern/pFUnit PROJECT PFUNIT TARGET PFUNIT)
 add_subdirectory(src)
 add_subdirectory(test)
 
+# TODO: cmake config file to allow find_package 
