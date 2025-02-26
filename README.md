@@ -1,4 +1,4 @@
-# hello-minimal-sp-mkl
+# hello-sparse-blas
 
 Demonstrate sparse matrix-vector multiplication with Intel MKL.
 
