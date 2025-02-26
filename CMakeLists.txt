@@ -8,6 +8,9 @@ if (NOT MKLROOT)
     message(FATAL_ERROR "MKLROOT environment variable is not set.")
 endif()
 
+set(MKLLIB ${MKLROOT}/lib CACHE PATH "Path to Intel MKL Libraries")
+set(MKLINCLUDE ${MKLROOT}/include CACHE PATH "Path to Intel MKL include files")
+
 # Add the include directory for MKL
 #include_directories(${MKLROOT}/include)
 
@@ -23,7 +26,7 @@ add_executable(test_spsolve ${PROJECT_SOURCE_DIR}/test_spsolve.f90)
 # Add include directories
 target_include_directories(test_spblas 
     PRIVATE 
-        ${MKLROOT}/include
+        ${MKLINCLUDE}
         #${MKLROOT}/include/mkl/intel64/ilp64 # suggested by LLA by not needed
 )
 
@@ -33,12 +36,12 @@ target_include_directories(test_spsolve PRIVATE ${MKLROOT}/include)
 target_link_libraries(test_spblas
     PRIVATE
         # must be static 
-        ${MKLROOT}/lib/libmkl_blas95_ilp64.a
+        ${MKLLIB}/libmkl_blas95_ilp64.a
         
         # must shared 
-        ${MKLROOT}/lib/libmkl_intel_ilp64.so
-        ${MKLROOT}/lib/libmkl_sequential.so # or libmkl_intel_thread.so
-        ${MKLROOT}/lib/libmkl_core.so
+        ${MKLLIB}/libmkl_intel_ilp64.so
+        ${MKLLIB}/libmkl_sequential.so # or libmkl_intel_thread.so
+        ${MKLLIB}/libmkl_core.so
 
         # standard shared libs 
         pthread
@@ -49,12 +52,12 @@ target_link_libraries(test_spblas
 target_link_libraries(test_spsolve
     PRIVATE
         # must be static 
-        ${MKLROOT}/lib/libmkl_blas95_ilp64.a
+        ${MKLLIB}/libmkl_blas95_ilp64.a
         
         # must shared 
-        ${MKLROOT}/lib/libmkl_intel_ilp64.so
-        ${MKLROOT}/lib/libmkl_sequential.so # or libmkl_intel_thread.so
-        ${MKLROOT}/lib/libmkl_core.so
+        ${MKLLIB}/libmkl_intel_ilp64.so
+        ${MKLLIB}/libmkl_sequential.so # or libmkl_intel_thread.so
+        ${MKLLIB}/libmkl_core.so
 
         # standard shared libs 
         pthread
