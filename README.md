@@ -2,14 +2,18 @@
 
 Demonstrate sparse matrix-vector multiplication with Intel MKL.
 
+First you have to get any dependencies.
+
 ```shell
 # Get externals 
 git submodule update --init 
+```
 
+Then, you can configure the project. 
+
+```shell
 # Build on ubuntu 22.04 LTS with intel install via apt get
 cmake -S . -B build -DCMAKE_Fortran_COMPILER=ifx
-cmake --build build
-./build/test/test_spblas
 ```
 
 Alternatively, if on a system where you need to specify a different MKL library
@@ -20,6 +24,13 @@ cmake -S . -B build \
     -DCMAKE_Fortran_COMPILER=ifx \
     -DMKLLIB=/sw/intel/oneapi/mkl/2021.3.0/lib/intel64\
     -DMKLINCLUDE=/sw/intel/oneapi/mkl/2021.3.0/include
+```
+
+Lastly, you build the project and execute an example binary.
+
+```shell
+cmake --build build
+./build/test/test_spblas
 ```
 
 # References
