@@ -1,8 +1,3 @@
 #!/usr/bin/bash
 # @brief Baseline configuration assuming standard oneapi installation via apt.
-# 
-# Assumes installation in the following order:
-# 1. [Installing intel fortran compiler](https://www.intel.com/content/www/us/en/developer/tools/oneapi/fortran-compiler-download.html?operatingsystem=linux&distribution-linux=apt)
-# 2. [Installing mkl](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl-download.html?operatingsystem=linux&linux-install=apt)
-# 3. [Set environment vars](https://gist.github.com/SomajitDey/aeb6eb4c8083185e06800e1ece4be1bd)
-cmake -S . -B build -DCMAKE_Fortran_COMPILER=mpifort 
+cmake -S . -B build -DCMAKE_Fortran_COMPILER=mpiifx
