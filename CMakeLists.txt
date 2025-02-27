@@ -13,13 +13,24 @@ if (NOT MKLROOT)
 endif()
 
 # TODO: find packages
+# https://cliutils.gitlab.io/modern-cmake/chapters/testing.html
+#enable_testing() # conditionally!
 
-#enable_testing()
-
-# These can be changed with -D... flag during build  
+# These can be changed with -D... flag during build config 
 set(MKLLIB ${MKLROOT}/lib CACHE PATH "Path to Intel MKL Libraries")
 set(MKLINCLUDE ${MKLROOT}/include CACHE PATH "Path to Intel MKL include files")
+
+# Get cmake functions 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
+include(build_submodule)
+
+# Build external libraries
+# TODO: conditional on enable testing! 
+build_submodule(extern/pFUnit PROJECT PFUNIT TARGET PFUNIT)
+
+# TODO: doxygen additions 
 
 add_subdirectory(src)
 add_subdirectory(test)
 
+# TODO: cmake config file to allow find_package 

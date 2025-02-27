@@ -2,24 +2,35 @@
 
 Demonstrate sparse matrix-vector multiplication with Intel MKL.
 
+Make sure you have the [Intel oneAPI HPC Toolkit](https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit-download.html?packages=hpc-toolkit&hpc-toolkit-os=linux&hpc-toolkit-lin=apt) or [Intel Fortran Essentials](https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit-download.html?packages=fortran-essentials&fortran-essentials-os=linux&fortran-essentials-lin=apt).
+
+Get the external dependencies.
+
 ```shell
 # Get externals 
 git submodule update --init 
+```
 
-# Build on ubuntu 22.04 LTS with intel install via apt get
-cmake -S . -B build -DCMAKE_Fortran_COMPILER=ifx
-cmake --build build
-./build/test/test_spblas
+Then, you can configure the project. 
+
+```shell 
+./config_cmake_intel_ubuntu
 ```
 
 Alternatively, if on a system where you need to specify a different MKL library
-and MKL include path, you can do this with the below (e.g., for DKRZ Levante):
+and MKL include path, you can do this with the flags `-DMKLLIB` and `-DMKLINCLUDE`
+during configuration. The below bash script does the necessary configuration,
+as an example, for DKRZ's Levante.
 
 ```shell
-cmake -S . -B build \
-    -DCMAKE_Fortran_COMPILER=ifx \
-    -DMKLLIB=/sw/intel/oneapi/mkl/2021.3.0/lib/intel64\
-    -DMKLINCLUDE=/sw/intel/oneapi/mkl/2021.3.0/include
+./config_cmake_intel_levante
+```
+
+Lastly, you build the project and execute an example binary.
+
+```shell
+cmake --build build
+./build/test/test_spblas
 ```
 
 # References
