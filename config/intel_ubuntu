@@ -1,3 +1,5 @@
 #!/usr/bin/bash
 # @brief Baseline configuration assuming standard oneapi installation via apt.
+curdir=$(pwd)
+[[ $curdir == *"config"* ]] && echo "must be in root project dir" && exit 1 
 cmake -S . -B build -DCMAKE_Fortran_COMPILER=mpiifx

@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 # @brief Configure cmake for DKRZ Levante 
+curdir=$(pwd)
+[[ $curdir == *"config"* ]] && echo "must be in root project dir" && exit 1 
 cmake -S . -B build \
     -DCMAKE_Fortran_COMPILER=mpiifort \
     -DMKLLIB=/sw/intel/oneapi/mkl/2021.3.0/lib/intel64\

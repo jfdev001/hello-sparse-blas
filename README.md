@@ -14,7 +14,7 @@ git submodule update --init
 Then, you can configure the project. 
 
 ```shell 
-./config_cmake_intel_ubuntu
+./config/intel_ubuntu
 ```
 
 Alternatively, if on a system where you need to specify a different MKL library
@@ -23,7 +23,7 @@ during configuration. The below bash script does the necessary configuration,
 as an example, for DKRZ's Levante.
 
 ```shell
-./config_cmake_intel_levante
+./config/intel_levante
 ```
 
 Lastly, you build the project and execute an example binary.
