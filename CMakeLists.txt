@@ -12,9 +12,6 @@ if (NOT MKLROOT)
     message(FATAL_ERROR "MKLROOT environment variable is not set.")
 endif()
 
-# TODO: find packages
-# https://cliutils.gitlab.io/modern-cmake/chapters/testing.html
-#enable_testing() # conditionally!
 
 # These can be changed with -D... flag during build config 
 set(MKLLIB ${MKLROOT}/lib CACHE PATH "Path to Intel MKL Libraries")
@@ -27,6 +24,12 @@ include(build_submodule)
 # Build external libraries
 # TODO: conditional on enable testing! 
 build_submodule(extern/pFUnit PROJECT PFUNIT TARGET PFUNIT)
+
+# TODO: find packages
+# https://cliutils.gitlab.io/modern-cmake/chapters/testing.html
+#enable_testing() # conditionally!
+find_package(PFUNIT REQUIRED)
+enable_testing()
 
 # TODO: doxygen additions 
 
