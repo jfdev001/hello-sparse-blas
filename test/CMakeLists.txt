@@ -44,4 +44,5 @@ if (${PFUNIT})
         LINK_LIBRARIES sut 
         LABELS "myproject" 
     )
+    # TODO: more tests with the same label as above (e.g., testlib)
 endif()

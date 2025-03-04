@@ -28,8 +28,24 @@ include(FetchContent)
 # TODO: conditional on enable testing! 
 #build_submodule(extern/pFUnit PROJECT PFUNIT TARGET PFUNIT)
 
+
+# https://github.com/jchristopherson/dynamics/blob/6d15ff598eaef8f07bbfb62d4b67115c4a13ccea/dependencies/fftpack/CMakeLists.txt#L6
+message("Downloading FFTPACK")
+FetchContent_Declare(
+    fftpack
+    GIT_REPOSITORY https://github.com/fortran-lang/fftpack
+    GIT_TAG main
+)
+
+FetchContent_MakeAvailable(fftpack)
+set(fftpack_INCLUDE_DIR ${fftpack_BINARY_DIR}/include)
+set(fftpack_LIBRARY fftpack)
+
+
 # adding pFUnit support
 # TODO: move this to an extern/ dir as in dependencies/ dir of fftpack
+# or use test-drive since you have working examples of this (e.g.,
+# with fftpack... but pfunit is better for long run...
 if (${PFUNIT})
   enable_testing()
   if (DEFINED ENV{PFUNIT_DIR})
