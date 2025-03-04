@@ -29,6 +29,7 @@ include(FetchContent)
 #build_submodule(extern/pFUnit PROJECT PFUNIT TARGET PFUNIT)
 
 # adding pFUnit support
+# TODO: move this to an extern/ dir as in dependencies/ dir of fftpack
 if (${PFUNIT})
   enable_testing()
   if (DEFINED ENV{PFUNIT_DIR})
@@ -37,7 +38,7 @@ if (${PFUNIT})
   else ()
     set(PFUNIT_VERSION "v4.9.0")
     message("PFUNIT_DIR not set, downloading pFUnit ${PFUNIT_VERSION}")
-    set(FETCHCONTENT_BASE_DIR ${CMAKE_BINARY_DIR}/pFUnit)
+    #set(FETCHCONTENT_BASE_DIR ${CMAKE_BINARY_DIR}/pFUnit)
     FetchContent_Declare(
       PFUNIT
       GIT_REPOSITORY "https://github.com/Goddard-Fortran-Ecosystem/pFUnit"

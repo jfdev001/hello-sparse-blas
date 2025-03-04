@@ -4,5 +4,5 @@ curdir=$(pwd)
 [[ $curdir == *"config"* ]] && echo "must be in root project dir" && exit 1 
 cmake -S . -B build \
     -DCMAKE_Fortran_COMPILER=mpiifort \
-    -DMKLLIB=/sw/intel/oneapi/mkl/2021.3.0/lib/intel64\
-    -DMKLINCLUDE=/sw/intel/oneapi/mkl/2021.3.0/include
+    -DMKLLIB=/sw/spack-levante/intel-oneapi-mkl-2022.0.1-ttdktf/mkl/2022.0.1/lib/intel64/\
+    -DMKLINCLUDE=/sw/spack-levante/intel-oneapi-mkl-2022.0.1-ttdktf/mkl/latest/include/
