@@ -39,6 +39,7 @@ target_link_libraries(
 
 # Add unit tests
 if (${PFUNIT}) 
+    #add_subdirectory(pFUnit)
     add_pfunit_ctest (test_square
         TEST_SOURCES test_square.pf
         LINK_LIBRARIES sut 
