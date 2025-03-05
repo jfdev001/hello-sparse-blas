@@ -28,18 +28,8 @@ target_link_libraries(
         dl
 )
 
-## Enable warnings and optimization flags
-#target_compile_options(
-    #test_spblas 
-    #PRIVATE
-        #-warn all
-        #-O3
-        #-i8
-#)
-
 # Add unit tests
 if (${PFUNIT}) 
-    #add_subdirectory(pFUnit)
     add_pfunit_ctest (test_square
         TEST_SOURCES test_square.pf
         LINK_LIBRARIES sut 

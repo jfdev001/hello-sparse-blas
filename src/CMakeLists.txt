@@ -10,13 +10,11 @@ set_target_properties (sut
 )
 
 # Allows successful linking of sut in the tests/CMakeLists.txt
-message("${CMAKE_CURRENT_SOURCE_DIR} including: ${fftpack_INCLUDE_DIR}")
 target_include_directories(sut 
     PUBLIC ${CMAKE_CURRENT_BINARY_DIR} ${fftpack_INCLUDE_DIR}
 )
 
 # Link any externals as an example
-message("${CMAKE_CURRENT_SOURCE_DIR} linking: ${fftpack_LIBRARY}")
 target_link_libraries(sut 
     PRIVATE ${fftpack_LIBRARY}
 )
