@@ -4,13 +4,6 @@ Demonstrate sparse matrix-vector multiplication with Intel MKL.
 
 Make sure you have the [Intel oneAPI HPC Toolkit](https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit-download.html?packages=hpc-toolkit&hpc-toolkit-os=linux&hpc-toolkit-lin=apt) or [Intel Fortran Essentials](https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit-download.html?packages=fortran-essentials&fortran-essentials-os=linux&fortran-essentials-lin=apt).
 
-Get the external dependencies.
-
-```shell
-# Get externals 
-git submodule update --init 
-```
-
 Then, you can configure the project. 
 
 ```shell 
