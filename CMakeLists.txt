@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 
 option(PFUNIT "ON - using pFUnit for unit tests, OFF - skip building unit tests" ON)
+option(TEST_DRIVE "ON - Using test-drive for unittests, OFF - skip building unit tests" OFF)
 
 project(
     TestSPBLAS 
@@ -39,6 +40,11 @@ if (${PFUNIT})
     )  
     FetchContent_MakeAvailable(PFUNIT)
   endif()
+endif()
+
+if (${TEST_DRIVE})
+    include(CTest)
+    enable_testing()
 endif()
 
 # TODO: doxygen additions 

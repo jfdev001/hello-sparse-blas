@@ -1,3 +1,18 @@
+# helper for building tests (modified from fftpack)
+macro(build_tests testname)
+    add_executable(${testname} ${ARGN})
+    target_link_libraries(${testname} test-drive sut)
+    target_include_directories(
+        ${testname} 
+        PUBLIC ${PROJECT_INCLUDE_DIR} ${test-drive_INCLUDE_DIR})
+    add_test(
+        NAME ${testname}
+        WORKING_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+        COMMAND $<TARGET_FILE:${testname}>
+    )
+endmacro()
+
+## Naive mkl executable... not actually a formal test 
 # Define the executable target
 add_executable(
     test_spblas 
@@ -28,7 +43,7 @@ target_link_libraries(
         dl
 )
 
-# Add unit tests
+# Add pfunit tests
 if (${PFUNIT}) 
     add_pfunit_ctest (test_square
         TEST_SOURCES test_square.pf
@@ -36,4 +51,14 @@ if (${PFUNIT})
         LABELS "myproject" 
     )
     # TODO: more tests with the same label as above (e.g., testlib)
+endif()
+
+# Add test-drive tests
+if (${TEST_DRIVE})
+    set(
+        TEST_DRIVE_SOURCES
+        test_square_with_test_drive.f90
+        test_drive_tester.f90
+    )    
+    build_tests(test_drive_square_tests ${TEST_DRIVE_SOURCES})
 endif()
