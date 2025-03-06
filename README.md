@@ -1,10 +1,12 @@
 # hello-sparse-blas
 
-Demonstrate sparse matrix-vector multiplication with Intel MKL.
+Demonstrate sparse matrix-vector multiplication with Intel MKL. Also has
+various structural components that are intended to be transferable across
+projects.
 
 Make sure you have the [Intel oneAPI HPC Toolkit](https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit-download.html?packages=hpc-toolkit&hpc-toolkit-os=linux&hpc-toolkit-lin=apt) or [Intel Fortran Essentials](https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit-download.html?packages=fortran-essentials&fortran-essentials-os=linux&fortran-essentials-lin=apt).
 
-Then, you can configure the project. 
+Then, you can configure, build, and run tests for the project. 
 
 ```shell 
 ./config/intel_ubuntu
@@ -17,13 +19,6 @@ as an example, for DKRZ's Levante.
 
 ```shell
 ./config/intel_levante
-```
-
-Lastly, you build the project and execute an example binary.
-
-```shell
-cmake --build build
-./build/test/test_spblas
 ```
 
 # References
