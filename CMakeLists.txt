@@ -23,26 +23,7 @@ set(MKLINCLUDE ${MKLROOT}/include CACHE PATH "Path to Intel MKL include files")
 # Get cmake functions 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
 
-if (${PFUNIT})
-  enable_testing()
-  if (DEFINED ENV{PFUNIT_DIR})
-    message("using pFUnit installed at $ENV{PFUNIT_DIR}")
-    find_package(PFUNIT)
-  else ()
-    include(FetchContent)
-    set(PFUNIT_VERSION "v4.9.0")
-    message("PFUNIT_DIR not set, downloading pFUnit ${PFUNIT_VERSION}")
-    #set(FETCHCONTENT_BASE_DIR ${CMAKE_BINARY_DIR}/pFUnit)
-    FetchContent_Declare(
-      PFUNIT
-      GIT_REPOSITORY "https://github.com/Goddard-Fortran-Ecosystem/pFUnit"
-      GIT_TAG ${PFUNIT_VERSION}
-    )  
-    FetchContent_MakeAvailable(PFUNIT)
-  endif()
-endif()
-
-if (${TEST_DRIVE})
+if (${TEST_DRIVE} OR ${PFUNIT})
     include(CTest)
     enable_testing()
 endif()
