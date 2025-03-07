@@ -10,3 +10,9 @@ if (${TEST_DRIVE})
     set(test-drive_INCLUDE_DIR ${test-drive_INCLUDE_DIR} PARENT_SCOPE)
 endif()
 
+# Get pfunit
+
+if (${PFUNIT})
+    add_subdirectory(pFUnit)
+endif()
+
