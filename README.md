@@ -4,12 +4,15 @@ Demonstrate sparse matrix-vector multiplication with Intel MKL. Also has
 various structural components that are intended to be transferable across
 projects.
 
+Use either `pFUnit` or `test-drive` for unit testing.
+
 Make sure you have the [Intel oneAPI HPC Toolkit](https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit-download.html?packages=hpc-toolkit&hpc-toolkit-os=linux&hpc-toolkit-lin=apt) or [Intel Fortran Essentials](https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit-download.html?packages=fortran-essentials&fortran-essentials-os=linux&fortran-essentials-lin=apt).
 
 Then, you can configure, build, and run tests for the project. 
 
 ```shell 
-./config/intel_ubuntu
+# test-drive builds faster than pfunit
+./config/intel_ubuntu_test_drive
 ```
 
 Alternatively, if on a system where you need to specify a different MKL library
