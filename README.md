@@ -21,6 +21,12 @@ as an example, for DKRZ's Levante.
 ./config/intel_levante
 ```
 
+You can build the documentation separately with
+
+```
+cmake --build build --target doxygen_docs 
+```
+
 # References
 
 * Test file based on [gist](https://gist.github.com/ivan-pi/23fe2da69ea6da9e2eb6bcf6e5060937).
@@ -31,3 +37,4 @@ as an example, for DKRZ's Levante.
 * [I did `INCLUDE mkl_spblas.f90` above the `PROGRAM` statement and the `use mkl_spblas` in the program block since i mimicked the direct sparse solver example for f90 on pg. 1941 of the mkl manual](https://www.scc.kit.edu/scc/docs/HP-XC/mkl72/mklman.pdf)
 * Directory structure from [fpm](https://fpm.fortran-lang.org/tutorial/hello-fpm.html) even though using cmake  
 * [fftpack](https://github.com/fortran-lang/fftpack) uses cmake for dependencies instead of git submodule and fetch content 
+* Doxygen real Fortran examples: [NOAA-ECM/fv3atm](https://github.com/NOAA-EMC/fv3atm/tree/41df0d88e4c11a8ba239c52605648cafed47acd7)

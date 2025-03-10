@@ -28,7 +28,13 @@ if (${TEST_DRIVE} OR ${PFUNIT})
     enable_testing()
 endif()
 
-# TODO: doxygen additions 
+find_package(Doxygen)
+if(Doxygen_FOUND)
+    message(STATUS "Building doxygen documentation")
+    add_subdirectory(doc)
+else()
+    message(STATUS "Doxygen not found, not building docs")
+endif()
 
 # Build external libraries
 add_subdirectory(extern)
