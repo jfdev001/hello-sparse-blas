@@ -4,7 +4,7 @@ option(PFUNIT "ON - using pFUnit for unit tests, OFF - skip building unit tests"
 option(TEST_DRIVE "ON - Using test-drive for unittests, OFF - skip building unit tests" OFF)
 
 project(
-    TestSPBLAS 
+    HelloSPBLAS 
     VERSION 0.1.0 
     LANGUAGES Fortran
 )
