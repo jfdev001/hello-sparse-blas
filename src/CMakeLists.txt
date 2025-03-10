@@ -1,6 +1,6 @@
 # system under test
 add_library(sut
-    square.f90
+    mo_square.f90
 )
 
 # Controls where to write the fortran mod files 

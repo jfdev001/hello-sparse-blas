@@ -4,12 +4,15 @@ Demonstrate sparse matrix-vector multiplication with Intel MKL. Also has
 various structural components that are intended to be transferable across
 projects.
 
+Use either `pFUnit` or `test-drive` for unit testing.
+
 Make sure you have the [Intel oneAPI HPC Toolkit](https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit-download.html?packages=hpc-toolkit&hpc-toolkit-os=linux&hpc-toolkit-lin=apt) or [Intel Fortran Essentials](https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit-download.html?packages=fortran-essentials&fortran-essentials-os=linux&fortran-essentials-lin=apt).
 
 Then, you can configure, build, and run tests for the project. 
 
 ```shell 
-./config/intel_ubuntu
+# test-drive builds faster than pfunit
+./config/intel_ubuntu_test_drive
 ```
 
 Alternatively, if on a system where you need to specify a different MKL library
@@ -19,6 +22,12 @@ as an example, for DKRZ's Levante.
 
 ```shell
 ./config/intel_levante
+```
+
+You can build the documentation separately with
+
+```
+cmake --build build --target doxygen_docs 
 ```
 
 # References
@@ -31,3 +40,4 @@ as an example, for DKRZ's Levante.
 * [I did `INCLUDE mkl_spblas.f90` above the `PROGRAM` statement and the `use mkl_spblas` in the program block since i mimicked the direct sparse solver example for f90 on pg. 1941 of the mkl manual](https://www.scc.kit.edu/scc/docs/HP-XC/mkl72/mklman.pdf)
 * Directory structure from [fpm](https://fpm.fortran-lang.org/tutorial/hello-fpm.html) even though using cmake  
 * [fftpack](https://github.com/fortran-lang/fftpack) uses cmake for dependencies instead of git submodule and fetch content 
+* Doxygen real Fortran examples: [NOAA-ECM/fv3atm](https://github.com/NOAA-EMC/fv3atm/tree/41df0d88e4c11a8ba239c52605648cafed47acd7)

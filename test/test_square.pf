@@ -1,6 +1,6 @@
 @test
 SUBROUTINE test_square()
-    USE Square_mod
+    USE mo_square
     USE funit
 
     @assertEqual(9., square(3.), 'square(3)')
