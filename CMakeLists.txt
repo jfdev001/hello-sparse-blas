@@ -32,9 +32,11 @@ if (${TEST_DRIVE} OR ${PFUNIT})
 endif()
 
 # Build external libraries
+message(STATUS "Build extern")
 add_subdirectory(extern)
 
 # Build libs
+message(STATUS "Build src")
 add_subdirectory(src)
 
 # Documentation
@@ -48,13 +50,11 @@ endif()
 
 
 # Cmake configuration
-# TODO: how are the targets identified here.... try to do this with 
-# explicit paths???
-# TODO: can't export something that doesnt exist....
-export(EXPORT "${PROJECT_NAME}Targets"
-       FILE "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Targets.cmake")
-
 include(CMakePackageConfigHelpers)
+include(GNUInstallDirs)
+
+# TODO: is this configuration necessary??
+message(STATUS "Configure package")
 configure_package_config_file(
   "${PROJECT_SOURCE_DIR}/cmake/config.cmake.in"
   "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
@@ -62,21 +62,67 @@ configure_package_config_file(
   NO_SET_AND_CHECK_MACRO NO_CHECK_REQUIRED_COMPONENTS_MACRO # are these needed?
 )
 
+# from fftpack
+#install(
+    #TARGETS ${PROJECT_NAME}
+    #EXPORT ${PROJECT_NAME}Targets
+    #RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    #LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    #ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    #INCLUDES DESTINATION ${CMAKE_INSTALL_PREFIX}/include
+#)
+
+#install(
+    #DIRECTORY ${PROJECT_INCLUDE_DIR}  # is this where my modules are ???
+    #DESTINATION ${CMAKE_INSTALL_PREFIX}
+#)
+
+# TODO: how are the targets identified here.... try to do this with 
+# explicit paths???
+# TODO: can't export something that doesnt exist....
+message(STATUS "Export targets")
+#export(EXPORT "${PROJECT_NAME}Targets"
+       #FILE "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Targets.cmake")
+
 write_basic_package_version_file(
   "${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
-  VERSION "${${PROJECT_NAME}_VERSION_MAJOR}.${${PROJECT_NAME}_VERSION_MINOR}"
-  COMPATIBILITY AnyNewerVersion)
+  VERSION ${PROJECT_VERSION}
+  COMPATIBILITY AnyNewerVersion
+)
 
+# TODO: from libicon-math
 # TODO: The only target is the SUT... how to make this available to other
-# libs ... 
-install(
-    EXPORT "${PROJECT_NAME}Targets"
-    DESTINATION "${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}/cmake"
-)
+# libs ...
+message(STATUS "Install targets") 
+#install(
+    #EXPORT "${PROJECT_NAME}Targets"
+    #DESTINATION "${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}/cmake"
+#)
 
-install(
-    FILES "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
-          "${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
-    DESTINATION "${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}/cmake"
-)
+#install(
+    #FILES "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+          #"${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+    #DESTINATION "${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}/cmake"
+#)
+
+
+## also from fftpack
+#configure_file(
+    #${CMAKE_CURRENT_SOURCE_DIR}/config.cmake.in
+    #${CMAKE_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+    #COPYONLY
+#)
+
+#install(
+    #EXPORT ${PROJECT_NAME}Targets
+    #FILE ${PROJECT_NAME}Targets.cmake
+    #DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+#)
+
+#install(
+    #FILES
+        #${CMAKE_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+        #${CMAKE_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+    #DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+#)
 
