@@ -24,6 +24,9 @@ set(MKLINCLUDE ${MKLROOT}/include CACHE PATH "Path to Intel MKL include files")
 # Get cmake functions 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
 
+# Set misc config 
+set(PROJECT_INCLUDE_DIR ${PROJECT_BINARY_DIR}/include)
+
 # Lib testing 
 if (${TEST_DRIVE} OR ${PFUNIT})
     include(CTest)
@@ -31,12 +34,15 @@ if (${TEST_DRIVE} OR ${PFUNIT})
     add_subdirectory(test)
 endif()
 
+include(GNUInstallDirs)
+
 # Build external libraries
 message(STATUS "Build extern")
 add_subdirectory(extern)
 
 # Build libs
 message(STATUS "Build src")
+# ADD FORTRAN LIB HERE??
 add_subdirectory(src)
 
 # Documentation
@@ -48,81 +54,46 @@ else()
     message(STATUS "Doxygen not found, not building docs")
 endif()
 
-
-# Cmake configuration
+# Config: fftpack/install/CMakeLists.txt
 include(CMakePackageConfigHelpers)
-include(GNUInstallDirs)
-
-# TODO: is this configuration necessary??
-message(STATUS "Configure package")
-configure_package_config_file(
-  "${PROJECT_SOURCE_DIR}/cmake/config.cmake.in"
-  "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
-  INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake"
-  NO_SET_AND_CHECK_MACRO NO_CHECK_REQUIRED_COMPONENTS_MACRO # are these needed?
-)
-
-# from fftpack
-#install(
-    #TARGETS ${PROJECT_NAME}
-    #EXPORT ${PROJECT_NAME}Targets
-    #RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-    #LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    #ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    #INCLUDES DESTINATION ${CMAKE_INSTALL_PREFIX}/include
-#)
-
-#install(
-    #DIRECTORY ${PROJECT_INCLUDE_DIR}  # is this where my modules are ???
-    #DESTINATION ${CMAKE_INSTALL_PREFIX}
-#)
-
-# TODO: how are the targets identified here.... try to do this with 
-# explicit paths???
-# TODO: can't export something that doesnt exist....
-message(STATUS "Export targets")
-#export(EXPORT "${PROJECT_NAME}Targets"
-       #FILE "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Targets.cmake")
-
 write_basic_package_version_file(
-  "${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
-  VERSION ${PROJECT_VERSION}
-  COMPATIBILITY AnyNewerVersion
+    ${CMAKE_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY AnyNewerVersion
 )
 
-# TODO: from libicon-math
-# TODO: The only target is the SUT... how to make this available to other
-# libs ...
-message(STATUS "Install targets") 
-#install(
-    #EXPORT "${PROJECT_NAME}Targets"
-    #DESTINATION "${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}/cmake"
-#)
+export(
+    ${PROJECT_NAME}Targets # never explicitly set anywhere in fftpack...
+    FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}Targets.cmake
+)   
 
-#install(
-    #FILES "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
-          #"${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
-    #DESTINATION "${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}/cmake"
-#)
+# Define the configuration file
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}Config.cmake.in
+    ${CMAKE_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+    COPYONLY
+)
 
+install(
+    EXPORT ${PROJECT_NAME}Targets
+    FILE ${PROJECT_NAME}Targets.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+)
+install(
+    FILES
+        ${CMAKE_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+        ${CMAKE_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+)
 
-## also from fftpack
-#configure_file(
-    #${CMAKE_CURRENT_SOURCE_DIR}/config.cmake.in
-    #${CMAKE_BINARY_DIR}/${PROJECT_NAME}Config.cmake
-    #COPYONLY
-#)
+configure_file(
+  ${CMAKE_CURRENT_SOURCE_DIR}/template.pc
+  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
+  @ONLY
+)
 
-#install(
-    #EXPORT ${PROJECT_NAME}Targets
-    #FILE ${PROJECT_NAME}Targets.cmake
-    #DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
-#)
-
-#install(
-    #FILES
-        #${CMAKE_BINARY_DIR}/${PROJECT_NAME}Config.cmake
-        #${CMAKE_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
-    #DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
-#)
+install(
+  FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
+)
 
