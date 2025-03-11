@@ -57,8 +57,8 @@ endif()
 if (${TEST_DRIVE})
     set(
         TEST_DRIVE_SOURCES
-        test_square_with_test_drive.f90
-        test_drive_tester.f90
+        test_square_with_test_drive.f90 # files containing tests 
+        test_drive_tester.f90           # must have this driver! 
     )    
     build_tests(test_drive_square_tests ${TEST_DRIVE_SOURCES})
 endif()

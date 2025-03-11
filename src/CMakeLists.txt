@@ -4,7 +4,9 @@ add_library(sut
 )
 
 # Controls where to write the fortran mod files 
-set_target_properties (sut 
+# TODO: access specifier for target?? should be public so can be used 
+# as lib right?
+set_target_properties(sut 
     PROPERTIES
     Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
 )
