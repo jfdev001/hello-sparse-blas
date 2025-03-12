@@ -3,7 +3,7 @@ libdir = ${prefix}/@CMAKE_INSTALL_FULL_LIBDIR@
 includedir = ${prefix}/@CMAKE_INSTALL_INCLUDEDIR@
 
 Name: @PROJECT_NAME@
-Description: FFTPACK is a package of fortran subprograms for the fast fourier transform of periodic and other symmetric sequences.
+Description: @PROJECT_DESCRIPTION@
 Version: @PROJECT_VERSION@
 Libs: -L${libdir} -l@PROJECT_NAME@
 Cflags: -I${includedir}

@@ -42,3 +42,4 @@ cmake --build build --target doxygen_docs
 * [fftpack](https://github.com/fortran-lang/fftpack) uses cmake for dependencies instead of git submodule and fetch content 
 * Doxygen real Fortran examples: [NOAA-ECM/fv3atm](https://github.com/NOAA-EMC/fv3atm/tree/41df0d88e4c11a8ba239c52605648cafed47acd7)
 * [Creating CMake libraries that others can find and use](https://www.youtube.com/watch?v=08f5Dav72aE)
+* [fortran-lang/stdlib](https://github.com/fortran-lang/stdlib) for more cmake structure
