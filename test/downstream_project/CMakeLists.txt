@@ -26,6 +26,6 @@ add_executable(hello hello.f90)
 # TODO: need to include stuff here .... maybe use helper function... link_library
 #target_include_directories(hello PUBLIC HelloSPBLAS)
 
-target_link_libraries(hello PUBLIC HelloSPBLAS)
+target_link_libraries(hello PRIVATE HelloSPBLAS)
 
 

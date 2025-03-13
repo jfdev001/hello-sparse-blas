@@ -75,7 +75,7 @@ add_fortran_library(
 link_library(
     ${PROJECT_NAME}
     ${fftpack_LIBRARY}
-    ${fftpack_INCLUDE_DIR}
+    ${fftpack_INCLUDE_DIR} # is include dir necessary here?? 
 )
 #target_include_directories(
     #${PROJECT_NAME} 
