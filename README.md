@@ -30,6 +30,18 @@ You can build the documentation separately with
 cmake --build build --target doxygen_docs 
 ```
 
+# On Writing CMakeLists for Fortran
+
+In the `**/CMakeLists.txt`, the packages 
+[`fftpack`](https://github.com/fortran-lang/fftpack), 
+[`test-drive`](https://github.com/fortran-lang/test-drive),
+[`libiconmath`](https://gitlab.dkrz.de/icon-libraries/libiconmath), and 
+[`dynamics`](https://github.com/jchristopherson/dynamics/tree/main) were used as 
+inspiration for the cmake commands needed for building a portable Fortran project. 
+Comments explicitly state `# ... (from <libname>)` to indicate projects inspired 
+part of or the entire cmake command. These projects were used as inspiration due 
+to their (a) wide-spread use and/or (b) credibility from expert authorship.
+
 # References
 
 * Test file based on [gist](https://gist.github.com/ivan-pi/23fe2da69ea6da9e2eb6bcf6e5060937).

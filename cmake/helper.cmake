@@ -2,6 +2,8 @@
 #
 # A collection of macros and functions making life with CMake and Fortran a
 # bit simpler.
+# 
+# from fftpack
 
 # Use to include and export headers
 function(include_headers lib dir install_dir)

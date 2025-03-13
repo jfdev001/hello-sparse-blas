@@ -1,10 +1,11 @@
-# helper for building tests (modified from fftpack)
+# 
+# Build unit tests and naive MKL executable for SpBLAS
+#
+
+# helper for building tests (from fftpack)
 macro(build_tests testname)
     add_executable(${testname} ${ARGN})
     target_link_libraries(${testname} test-drive ${PROJECT_NAME})
-    target_include_directories(
-        ${testname} 
-        PUBLIC ${PROJECT_INCLUDE_DIR} ${test-drive_INCLUDE_DIR})
     add_test(
         NAME ${testname}
         WORKING_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
@@ -12,7 +13,6 @@ macro(build_tests testname)
     )
 endmacro()
 
-## Naive mkl executable... not actually a formal test 
 # Define the executable target
 add_executable(
     test_spblas 

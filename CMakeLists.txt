@@ -27,22 +27,12 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
 # Set misc config 
 set(PROJECT_INCLUDE_DIR ${PROJECT_BINARY_DIR}/include)
 
-# Lib testing 
-if (${TEST_DRIVE} OR ${PFUNIT})
-    include(CTest)
-    enable_testing()
-    add_subdirectory(test)
-endif()
-
 include(GNUInstallDirs)
 
-# Build external libraries
 message(STATUS "Build extern")
 add_subdirectory(extern)
 
-# Build libs
 message(STATUS "Build src")
-# ADD FORTRAN LIB HERE??
 add_subdirectory(src)
 
 # Documentation
@@ -54,12 +44,9 @@ else()
     message(STATUS "Doxygen not found, not building docs")
 endif()
 
-set(Fortran_MODULE_DIRECTORY ${PROJECT_INCLUDE_DIR})
 
-# TODO: check fftpack configuration... also includes dirs...
-# see creating cmake librarie sthat others can find and use (README.md)
-# multiple libraries could be ina package... multiple modules make up lib..
-# etc.
+# from fftpack/CMakeLists
+set(Fortran_MODULE_DIRECTORY ${PROJECT_INCLUDE_DIR})
 add_fortran_library(
     ${PROJECT_NAME}
     ${Fortran_MODULE_DIRECTORY}
@@ -69,28 +56,12 @@ add_fortran_library(
     ${HelloSPBLAS_SOURCES} # defined in src/CMakeLists.txt 
 )
 
-## TODO: could remover target_include_directories and target_link_libraries
-# and replace with helpers::link_libraries??
-# TODO: this is probably causing the issue!!
-link_library(
-    ${PROJECT_NAME}
-    ${fftpack_LIBRARY}
-    ${fftpack_INCLUDE_DIR} # is include dir necessary here?? 
-)
-#target_include_directories(
-    #${PROJECT_NAME} 
-    #PUBLIC
-        #${fftpack_INCLUDE_DIR}
-#)
+# Could use cmake/helpers.cmake::link_libraries but fftpack include dir is not needed
+target_link_libraries(${PROJECT_NAME} fftpack)
 
-# Link any externals as an example (private link?)
-# TODO: also make loop?
-# use helper link_library??
-#target_link_libraries(${PROJECT_NAME} PUBLIC ${fftpack_LIBRARY})
-
-# from fftpack
-# install_library depends on add_fortran_library
-install_library(
+# installation/configuration step (makes find_package work!)
+# from fftpack/install/CMakeLists.txt 
+install_library( # depends on `add_fortran_library` occurring first
     ${PROJECT_NAME}
     ${CMAKE_INSTALL_LIBDIR}
     ${CMAKE_INSTALL_BINDIR}
@@ -98,7 +69,6 @@ install_library(
     ${CMAKE_INSTALL_PREFIX}
 )
 
-# Config: fftpack/install/CMakeLists.txt
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
     ${CMAKE_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
@@ -106,26 +76,18 @@ write_basic_package_version_file(
     COMPATIBILITY AnyNewerVersion
 )
 
-# TODO: configure_package_config_file since this what's needed to expand the
-# HelloSPBLASConfig.cmake.in @PACKAGE_INIT@ etc...
-# test-drive/config/CMakeLists.txt 
+# from test-drive/config/CMakeLists.txt 
 configure_package_config_file(
   "${CMAKE_CURRENT_SOURCE_DIR}/cmake/${PROJECT_NAME}Config.cmake.in"
   "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
-  INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}" # TODO: change to bin?
+  INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
 )
 
+# from fftpack/install/CMakeLists.txt
 export(
     EXPORT ${PROJECT_NAME}Targets 
     FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}Targets.cmake
 )   
-
-# Define the configuration file
-#configure_file(
-    #${CMAKE_CURRENT_SOURCE_DIR}/cmake/${PROJECT_NAME}Config.cmake.in
-    #${CMAKE_BINARY_DIR}/${PROJECT_NAME}Config.cmake
-    #COPYONLY
-#)
 
 install(
     EXPORT ${PROJECT_NAME}Targets
@@ -139,7 +101,7 @@ install(
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )
 
-# used in both fftpack and test-drive 
+# from fftpack and test-drive 
 configure_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/template.pc
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
@@ -151,3 +113,9 @@ install(
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
 )
 
+# Add testing last (from test-drive)
+if (${TEST_DRIVE} OR ${PFUNIT})
+    include(CTest)
+    enable_testing()
+    add_subdirectory(test)
+endif()
