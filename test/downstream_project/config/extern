@@ -3,4 +3,6 @@
 curdir=$(pwd)
 [[ $curdir == *"config"* ]] && echo "must be in toplevel dir" && exit 1 
 [[ -d build ]] && rm -rf build
-cmake -S . -B build -DFETCH_HELLOSPBLAS=ON
+cmake -S . -B build -DCMAKE_Fortran_COMPILER=ifx -DFETCH_HELLOSPBLAS=ON
+cmake --build build 
+./build/hello

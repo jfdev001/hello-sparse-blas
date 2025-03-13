@@ -1,7 +1,7 @@
 # hello-sparse-blas
 
 Demonstrate sparse matrix-vector multiplication with Intel MKL. Also has
-various structural components that are intended to be transferable across
+various cmake structural components that are intended to be for generic 
 projects.
 
 Use either `pFUnit` or `test-drive` for unit testing.
@@ -21,7 +21,7 @@ during configuration. The below bash script does the necessary configuration,
 as an example, for DKRZ's Levante.
 
 ```shell
-./config/intel_levante
+./config/intel_levante_pfunit
 ```
 
 You can build the documentation separately with

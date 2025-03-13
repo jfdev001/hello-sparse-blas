@@ -8,18 +8,20 @@ project(testspblas_downstream
 
 option(FETCH_HELLOSPBLAS "ON - fetches HelloSPBLAS, OFF - use local installation" OFF)
 
-include(CTest)
-
 if(${FETCH_HELLOSPBLAS})
     include(FetchContent)
-    # ...
+    # TODO: fetching when there are dependencies... maybe need to add
+    # find_dependency PFUNIT if ON or find_dependency test-drive if ON
+    FetchContent_Declare(
+        HelloSPBLAS 
+        GIT_REPOSITORY "https://github.com/jfdev001/hello-sparse-blas" 
+        GIT_TAG d0b87d653bbae4ed7cb8177d6e32df7cb3b54335
+    )
+    FetchContent_MakeAvailable(HelloSPBLAS) 
 else()
     find_package(HelloSPBLAS REQUIRED)
 endif()
 
-# make libs and include avail
-
-# link to target (executable)
 add_executable(hello hello.f90) 
 
 # test-drive and fftpack have ${LIBNAME}_INCLUDE_DIR...

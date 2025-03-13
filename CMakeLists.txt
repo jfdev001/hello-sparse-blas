@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.15)
 
 # Flags for testing 
-option(PFUNIT "ON - using pFUnit for unit tests, OFF - skip building unit tests" ON)
-option(TEST_DRIVE "ON - Using test-drive for unittests, OFF - skip building unit tests" OFF)
+option(PFUNIT "ON - using pFUnit for unit tests, OFF - skip building pfunit tests" OFF)
+option(TEST_DRIVE "ON - Using test-drive for unittests, OFF - skip building test-drive tests" OFF)
 
 project(
     HelloSPBLAS 
