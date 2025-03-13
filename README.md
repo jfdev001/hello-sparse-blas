@@ -30,6 +30,19 @@ You can build the documentation separately with
 cmake --build build --target doxygen_docs 
 ```
 
+You can also check to see if a downstream project can find/fetch this package.
+
+```
+(
+cd build 
+make install
+cd ..
+cd test/downstream_project/ 
+./config/local # uses local installation from make install to run hello world with repo lib
+./config/fetch # fetchcontent this repo to run hello world with repo lib
+)
+```
+
 # On Writing CMakeLists for Fortran
 
 In the `**/CMakeLists.txt`, the packages 
