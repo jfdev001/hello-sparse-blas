@@ -54,15 +54,6 @@ else()
     message(STATUS "Doxygen not found, not building docs")
 endif()
 
-# Config: fftpack/install/CMakeLists.txt
-include(CMakePackageConfigHelpers)
-write_basic_package_version_file(
-    ${CMAKE_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
-    VERSION ${PROJECT_VERSION}
-    COMPATIBILITY AnyNewerVersion
-)
-
-# TODO: Do add_library
 set(Fortran_MODULE_DIRECTORY ${PROJECT_INCLUDE_DIR})
 
 # TODO: check fftpack configuration... also includes dirs...
@@ -107,17 +98,34 @@ install_library(
     ${CMAKE_INSTALL_PREFIX}
 )
 
+# Config: fftpack/install/CMakeLists.txt
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+    ${CMAKE_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY AnyNewerVersion
+)
+
+# TODO: configure_package_config_file since this what's needed to expand the
+# HelloSPBLASConfig.cmake.in @PACKAGE_INIT@ etc...
+# test-drive/config/CMakeLists.txt 
+configure_package_config_file(
+  "${CMAKE_CURRENT_SOURCE_DIR}/cmake/${PROJECT_NAME}Config.cmake.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+  INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}" # TODO: change to bin?
+)
+
 export(
     EXPORT ${PROJECT_NAME}Targets 
     FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}Targets.cmake
 )   
 
 # Define the configuration file
-configure_file(
-    ${CMAKE_CURRENT_SOURCE_DIR}/cmake/${PROJECT_NAME}Config.cmake.in
-    ${CMAKE_BINARY_DIR}/${PROJECT_NAME}Config.cmake
-    COPYONLY
-)
+#configure_file(
+    #${CMAKE_CURRENT_SOURCE_DIR}/cmake/${PROJECT_NAME}Config.cmake.in
+    #${CMAKE_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+    #COPYONLY
+#)
 
 install(
     EXPORT ${PROJECT_NAME}Targets
@@ -131,6 +139,7 @@ install(
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )
 
+# used in both fftpack and test-drive 
 configure_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/template.pc
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc

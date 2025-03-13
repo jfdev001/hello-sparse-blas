@@ -1,5 +1,8 @@
+# libiconmath... not used in fftpack?? also see test-drive template.cmake 
 @PACKAGE_INIT@
 
+# TODO: add if NOT TARGET (see template.cmake in test-drive and also config/CMakeLists fft)
+# TODO: libicon math does not guard against include in TARGET case...
 include("${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@Targets.cmake")
 
 include(CMakeFindDependencyMacro)
