@@ -1,7 +1,7 @@
 # hello-sparse-blas
 
 Demonstrate sparse matrix-vector multiplication with Intel MKL. Also has
-various structural components that are intended to be transferable across
+various cmake structural components that are intended to be for generic 
 projects.
 
 Use either `pFUnit` or `test-drive` for unit testing.
@@ -21,7 +21,7 @@ during configuration. The below bash script does the necessary configuration,
 as an example, for DKRZ's Levante.
 
 ```shell
-./config/intel_levante
+./config/intel_levante_pfunit
 ```
 
 You can build the documentation separately with
@@ -41,3 +41,5 @@ cmake --build build --target doxygen_docs
 * Directory structure from [fpm](https://fpm.fortran-lang.org/tutorial/hello-fpm.html) even though using cmake  
 * [fftpack](https://github.com/fortran-lang/fftpack) uses cmake for dependencies instead of git submodule and fetch content 
 * Doxygen real Fortran examples: [NOAA-ECM/fv3atm](https://github.com/NOAA-EMC/fv3atm/tree/41df0d88e4c11a8ba239c52605648cafed47acd7)
+* [Creating CMake libraries that others can find and use](https://www.youtube.com/watch?v=08f5Dav72aE)
+* [fortran-lang/stdlib](https://github.com/fortran-lang/stdlib) for more cmake structure

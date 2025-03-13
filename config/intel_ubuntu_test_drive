@@ -3,12 +3,15 @@
 (
 curdir=$(pwd)
 [[ $curdir == *"config"* ]] && echo "must be in root project dir" && exit 1 
-cmake -S . -B build -DCMAKE_Fortran_COMPILER=ifx -DPFUNIT=OFF -DTEST_DRIVE=ON
+#[[ -d build ]] && rm -rf build
+cmake -S . -B build\
+    -DCMAKE_Fortran_COMPILER=ifx -DPFUNIT=OFF -DTEST_DRIVE=ON\
+    -DCMAKE_INSTALL_PREFIX=build/installed
 cmake --build build
 cd build
 # name from test/CMakeLists.txt build_tests(FIRST_ARG ...)
 ctest -R test_drive_square_tests
 # build docs
-cmake --build . --target doxygen_docs 
+#cmake --build . --target doxygen_docs 
 )
 

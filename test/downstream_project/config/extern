@@ -1,0 +1,8 @@
+#!/usr/bin/bash
+# @brief Build cmake project using fetch content 
+curdir=$(pwd)
+[[ $curdir == *"config"* ]] && echo "must be in toplevel dir" && exit 1 
+[[ -d build ]] && rm -rf build
+cmake -S . -B build -DCMAKE_Fortran_COMPILER=ifx -DFETCH_HELLOSPBLAS=ON
+cmake --build build 
+./build/hello

@@ -1,7 +1,7 @@
 # helper for building tests (modified from fftpack)
 macro(build_tests testname)
     add_executable(${testname} ${ARGN})
-    target_link_libraries(${testname} test-drive sut)
+    target_link_libraries(${testname} test-drive ${PROJECT_NAME})
     target_include_directories(
         ${testname} 
         PUBLIC ${PROJECT_INCLUDE_DIR} ${test-drive_INCLUDE_DIR})
@@ -47,7 +47,7 @@ target_link_libraries(
 if (${PFUNIT}) 
     add_pfunit_ctest (test_square
         TEST_SOURCES test_square.pf
-        LINK_LIBRARIES sut 
+        LINK_LIBRARIES ${PROJECT_NAME}
         LABELS "myproject" 
     )
     # TODO: more tests with the same label as above (e.g., testlib)
@@ -57,8 +57,8 @@ endif()
 if (${TEST_DRIVE})
     set(
         TEST_DRIVE_SOURCES
-        test_square_with_test_drive.f90
-        test_drive_tester.f90
+        test_square_with_test_drive.f90 # files containing tests 
+        test_drive_tester.f90           # must have this driver! 
     )    
     build_tests(test_drive_square_tests ${TEST_DRIVE_SOURCES})
 endif()

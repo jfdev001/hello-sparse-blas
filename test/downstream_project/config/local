@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+# @brief Build the cmake project assuming the HelloSPBLAS package is locally installed.
+curdir=$(pwd)
+[[ $curdir == *"config"* ]] && echo "must be in toplevel dir" && exit 1 
+[[ -d build ]] && rm -rf build
+cmake -S . -B build\
+    -DCMAKE_Fortran_COMPILER=ifx\
+    -DCMAKE_PREFIX_PATH=../../build/installed\
+    -DFETCH_HELLOSPBLAS=OFF
+cmake --build build 
+./build/hello

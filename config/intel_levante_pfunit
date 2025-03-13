@@ -6,7 +6,10 @@ curdir=$(pwd)
 cmake -S . -B build \
     -DCMAKE_Fortran_COMPILER=mpiifort \
     -DMKLLIB=/sw/spack-levante/intel-oneapi-mkl-2022.0.1-ttdktf/mkl/2022.0.1/lib/intel64/\
-    -DMKLINCLUDE=/sw/spack-levante/intel-oneapi-mkl-2022.0.1-ttdktf/mkl/latest/include/
+    -DMKLINCLUDE=/sw/spack-levante/intel-oneapi-mkl-2022.0.1-ttdktf/mkl/latest/include/\
+    -DCMAKE_INSTALL_PREFIX=build/installed\
+    -DPFUNIT=ON
+    
 cmake --build build
 cd build
 ctest -L myproject 
