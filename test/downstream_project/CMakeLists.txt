@@ -11,7 +11,7 @@ if(${FETCH_HELLOSPBLAS})
     FetchContent_Declare(
         HelloSPBLAS 
         GIT_REPOSITORY "https://github.com/jfdev001/hello-sparse-blas" 
-        GIT_TAG ec3b16f1584c5dc31b9ba58243294a9f712e24dd
+        GIT_TAG main
     )
     FetchContent_MakeAvailable(HelloSPBLAS) 
 else()
