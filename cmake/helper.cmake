@@ -3,7 +3,7 @@
 # A collection of macros and functions making life with CMake and Fortran a
 # bit simpler.
 # 
-# from fftpack
+# modified from fftpack
 
 # Use to include and export headers
 function(include_headers lib dir install_dir)
@@ -21,17 +21,19 @@ function(add_fortran_library lib_name mod_dir include_install_dir version major)
     set_target_properties(
         ${lib_name}
         PROPERTIES
-            POSITION_INDEPENDENT_CODE TRUE
-            OUTPUT_NAME ${lib_name}
-            VERSION ${version}
-            SOVERSION ${major}
-            Fortran_MODULE_DIRECTORY ${include_install_dir}
+            # possible bug with properties and output name and....
+            POSITION_INDEPENDENT_CODE ON
+            Fortran_MODULE_DIRECTORY ${Fortran_MODULE_DIRECTORY} # was ${include_install_dir}
     )
+    # TODO: access specifiers here?? PRIVATE means internal to library (i.e., dev)
+    # PUBLIC means required for user 
     target_include_directories(
         ${lib_name}
         PUBLIC
-        $<BUILD_INTERFACE:${mod_dir}>
-        $<INSTALL_INTERFACE:${include_install_dir}>
+        #$<BUILD_INTERFACE:${mod_dir}>
+            $<BUILD_INTERFACE:$<$<COMPILE_LANGUAGE:Fortran>:${mod_dir}>>
+            # maybe need to have cmake installa prefix here as well???
+            $<INSTALL_INTERFACE:${include_install_dir}>
     )
 endfunction()
 
@@ -43,7 +45,9 @@ function(install_library lib_name lib_install_dir bin_install_dir mod_dir instal
         RUNTIME DESTINATION ${bin_install_dir}
         LIBRARY DESTINATION ${lib_install_dir}
         ARCHIVE DESTINATION ${lib_install_dir}
-        INCLUDES DESTINATION ${install_dir}/include
+        # TODO: more accurately call install_prefix?? was install_dir/include
+        # before...
+        INCLUDES DESTINATION ${install_dir}/${CMAKE_INSTALL_INCLUDEDIR} 
     )
     install(
         DIRECTORY ${mod_dir}

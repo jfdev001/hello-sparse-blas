@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 
 # Flags for testing 
+# TODO: add BUILD_TESTING --> BUILD_TESTING
 option(PFUNIT "ON - using pFUnit for unit tests, OFF - skip building pfunit tests" OFF)
 option(TEST_DRIVE "ON - Using test-drive for unittests, OFF - skip building test-drive tests" OFF)
 
@@ -42,76 +43,61 @@ else()
 endif()
 
 
-# from fftpack/CMakeLists.txt
-#set(PROJECT_INCLUDE_DIR ${PROJECT_BINARY_DIR}/include) # fftpack/configure/CMakeLists.txt
-set(Fortran_MODULE_DIRECTORY ${PROJECT_SOURCE_DIR}/src/mod)
-set(PROJECT_INCLUDE_DIR ${Fortran_MODULE_DIRECTORY}) # redundant since mod dir == include 
-add_fortran_library(
-    ${PROJECT_NAME}
-    ${Fortran_MODULE_DIRECTORY}
-    ${CMAKE_INSTALL_INCLUDEDIR} # this is where the mod files are written during BUILD TODO
-    ${PROJECT_VERSION}
-    ${PROJECT_VERSION_MAJOR}
-    ${HelloSPBLAS_SOURCES} # defined in src/CMakeLists.txt, ${ARGN}
-)
+# TODO: move installation to src dir as well?
 
-# Could use cmake/helpers.cmake::link_libraries but fftpack include dir is not needed
-target_link_libraries(${PROJECT_NAME} fftpack)
+## installation/configuration step (makes find_package work!)
+## from fftpack/install/CMakeLists.txt 
+#install_library( # depends on `add_fortran_library` occurring first
+    #${PROJECT_NAME}
+    #${CMAKE_INSTALL_LIBDIR}
+    #${CMAKE_INSTALL_BINDIR}
+    #${Fortran_MODULE_DIRECTORY}
+    #${CMAKE_INSTALL_PREFIX}
+#)
 
-# installation/configuration step (makes find_package work!)
-# from fftpack/install/CMakeLists.txt 
-# TODO: should make library installed in source (i.e., .a
-install_library( # depends on `add_fortran_library` occurring first
-    ${PROJECT_NAME}
-    ${CMAKE_INSTALL_LIBDIR}
-    ${CMAKE_INSTALL_BINDIR}
-    ${Fortran_MODULE_DIRECTORY}
-    ${CMAKE_INSTALL_PREFIX}
-)
+#include(CMakePackageConfigHelpers)
+#write_basic_package_version_file(
+    #${CMAKE_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+    #VERSION ${PROJECT_VERSION}
+    #COMPATIBILITY AnyNewerVersion
+#)
 
-include(CMakePackageConfigHelpers)
-write_basic_package_version_file(
-    ${CMAKE_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
-    VERSION ${PROJECT_VERSION}
-    COMPATIBILITY AnyNewerVersion
-)
+## from test-drive/config/CMakeLists.txt 
+#configure_package_config_file(
+  #"${CMAKE_CURRENT_SOURCE_DIR}/cmake/${PROJECT_NAME}Config.cmake.in"
+  #"${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+  #INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
+#)
 
-# from test-drive/config/CMakeLists.txt 
-configure_package_config_file(
-  "${CMAKE_CURRENT_SOURCE_DIR}/cmake/${PROJECT_NAME}Config.cmake.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
-  INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
-)
+## from fftpack/install/CMakeLists.txt
+#export(
+    #EXPORT ${PROJECT_NAME}Targets 
+    #FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}Targets.cmake
+#)   
 
-# from fftpack/install/CMakeLists.txt
-export(
-    EXPORT ${PROJECT_NAME}Targets 
-    FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}Targets.cmake
-)   
+#install(
+    #EXPORT ${PROJECT_NAME}Targets
+    #FILE ${PROJECT_NAME}Targets.cmake
+    #DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+#)
+#install(
+    #FILES
+        #${CMAKE_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+        #${CMAKE_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+    #DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+#)
 
-install(
-    EXPORT ${PROJECT_NAME}Targets
-    FILE ${PROJECT_NAME}Targets.cmake
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
-)
-install(
-    FILES
-        ${CMAKE_BINARY_DIR}/${PROJECT_NAME}Config.cmake
-        ${CMAKE_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
-)
+## from fftpack and test-drive 
+#configure_file(
+  #${CMAKE_CURRENT_SOURCE_DIR}/template.pc
+  #${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
+  #@ONLY
+#)
 
-# from fftpack and test-drive 
-configure_file(
-  ${CMAKE_CURRENT_SOURCE_DIR}/template.pc
-  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
-  @ONLY
-)
-
-install(
-  FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
-)
+#install(
+  #FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
+  #DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
+#)
 
 # Add testing last (from test-drive)
 if (${TEST_DRIVE} OR ${PFUNIT})
