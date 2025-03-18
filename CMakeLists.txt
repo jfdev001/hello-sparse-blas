@@ -24,9 +24,6 @@ set(MKLINCLUDE ${MKLROOT}/include CACHE PATH "Path to Intel MKL include files")
 # Get cmake functions 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
 
-# Set misc config 
-set(PROJECT_INCLUDE_DIR ${PROJECT_BINARY_DIR}/include)
-
 include(GNUInstallDirs)
 
 message(STATUS "Build extern")
@@ -45,15 +42,17 @@ else()
 endif()
 
 
-# from fftpack/CMakeLists
-set(Fortran_MODULE_DIRECTORY ${PROJECT_INCLUDE_DIR})
+# from fftpack/CMakeLists.txt
+#set(PROJECT_INCLUDE_DIR ${PROJECT_BINARY_DIR}/include) # fftpack/configure/CMakeLists.txt
+set(Fortran_MODULE_DIRECTORY ${PROJECT_SOURCE_DIR}/src/mod)
+set(PROJECT_INCLUDE_DIR ${Fortran_MODULE_DIRECTORY}) # redundant since mod dir == include 
 add_fortran_library(
     ${PROJECT_NAME}
     ${Fortran_MODULE_DIRECTORY}
-    ${CMAKE_INSTALL_INCLUDEDIR}
+    ${CMAKE_INSTALL_INCLUDEDIR} # this is where the mod files are written during BUILD TODO
     ${PROJECT_VERSION}
     ${PROJECT_VERSION_MAJOR}
-    ${HelloSPBLAS_SOURCES} # defined in src/CMakeLists.txt 
+    ${HelloSPBLAS_SOURCES} # defined in src/CMakeLists.txt, ${ARGN}
 )
 
 # Could use cmake/helpers.cmake::link_libraries but fftpack include dir is not needed
@@ -61,11 +60,12 @@ target_link_libraries(${PROJECT_NAME} fftpack)
 
 # installation/configuration step (makes find_package work!)
 # from fftpack/install/CMakeLists.txt 
+# TODO: should make library installed in source (i.e., .a
 install_library( # depends on `add_fortran_library` occurring first
     ${PROJECT_NAME}
     ${CMAKE_INSTALL_LIBDIR}
     ${CMAKE_INSTALL_BINDIR}
-    ${PROJECT_INCLUDE_DIR}
+    ${Fortran_MODULE_DIRECTORY}
     ${CMAKE_INSTALL_PREFIX}
 )
 

@@ -5,7 +5,8 @@
 # helper for building tests (from fftpack)
 macro(build_tests testname)
     add_executable(${testname} ${ARGN})
-    target_link_libraries(${testname} test-drive ${PROJECT_NAME})
+    link_library(${testname} test-drive ${test-drive_INCLUDE_DIR})
+    link_library(${testname} ${PROJECT_NAME} ${PROJECT_INCLUDE_DIR})
     add_test(
         NAME ${testname}
         WORKING_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
