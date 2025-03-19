@@ -18,5 +18,11 @@ CONTAINS
         square = x**2
     END FUNCTION square
 
+    PURE REAL FUNCTION cube(x)
+        ! An undocumented function
+        REAL, INTENT(in) :: x
+        cube = x**3
+    END FUNCTION cube
+
 END MODULE mo_square
 
