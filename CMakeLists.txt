@@ -14,15 +14,11 @@ project(
 
 # Set paths to Intel oneAPI MKL
 set(MKLROOT $ENV{MKLROOT})  # Assuming MKLROOT is already set in the environment
-
 if (NOT MKLROOT)
     message(FATAL_ERROR "MKLROOT environment variable is not set.")
 endif()
-
-# These can be changed with -D... flag during build config 
 set(MKLLIB ${MKLROOT}/lib CACHE PATH "Path to Intel MKL Libraries")
 
-# Get cmake functions 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
 
 include(GNUInstallDirs)
@@ -33,7 +29,6 @@ add_subdirectory(extern)
 message(STATUS "Build src")
 add_subdirectory(src)
 
-# Documentation
 find_package(Doxygen)
 if(Doxygen_FOUND)
     message(STATUS "Building doxygen documentation")
@@ -42,7 +37,6 @@ else()
     message(STATUS "Doxygen not found, not building docs")
 endif()
 
-# Add testing last (from test-drive)
 if (${BUILD_TESTING})
     include(CTest)
     enable_testing()
