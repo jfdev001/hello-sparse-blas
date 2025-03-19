@@ -1,9 +1,9 @@
-include(FetchContent)
 if (${PFUNIT})
+    message(STATUS "Downloading pFUnit")
     FetchContent_Declare(
       PFUNIT
       GIT_REPOSITORY "https://github.com/Goddard-Fortran-Ecosystem/pFUnit"
-      GIT_TAG cf37fb694f7c015d3718c1b4f7f3e9a56613067a # branch that fixes fetchcontent 
+      GIT_TAG ${pFUnit_GIT_TAG}
     )  
     FetchContent_MakeAvailable(PFUNIT)
 endif()

@@ -1,24 +1,16 @@
-include(FetchContent)
-
 if (${TEST_DRIVE})
-    if (${test-drive_FOUND})
-        message(STATUS "TEST-DRIVE (${test-drive_VERSION}) library found.")
-        get_target_property(test-drive_INCLUDE_DIR test-drive INTERFACE_INCLUDE_DIRECTORIES)
-    else()
-        message(STATUS "TEST-DRIVE library not found.  Downloading appropriate repository.")
-        FetchContent_Declare(
-            test-drive
-            GIT_TAG "origin/main"
-            GIT_REPOSITORY "https://github.com/fortran-lang/test-drive"
-            OVERRIDE_FIND_PACKAGE
-        )
-        FetchContent_MakeAvailable(test-drive)
-        set(test-drive_INCLUDE_DIR ${test-drive_BINARY_DIR}/include)
-    endif()
+    message(STATUS "Downloading test-drive")
+    FetchContent_Declare(
+        test-drive
+        GIT_REPOSITORY "https://github.com/fortran-lang/test-drive"
+        GIT_TAG ${test-drive_GIT_TAG}
+    )
+    FetchContent_MakeAvailable(test-drive)
 
     set(test-drive_LIBRARY test-drive)
     set(test-drive_LIBRARY ${test-drive_LIBRARY} PARENT_SCOPE)
 
+    set(test-drive_INCLUDE_DIR ${test-drive_BINARY_DIR}/include)
     set(test-drive_INCLUDE_DIR ${test-drive_INCLUDE_DIR} PARENT_SCOPE)
 endif()
 

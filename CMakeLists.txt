@@ -9,6 +9,7 @@ option(TEST_DRIVE "ON - Using test-drive for unittests, OFF - skip building test
 project(
     HelloSPBLAS 
     VERSION 0.1.0 
+    DESCRIPTION "Generic hello spblas project with dependencies and optional testing libs"
     LANGUAGES Fortran
 )
 
@@ -21,12 +22,16 @@ set(MKLLIB ${MKLROOT}/lib CACHE PATH "Path to Intel MKL Libraries")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
 
-include(GNUInstallDirs)
-
+# build externals with specified version corresponding to git tag 
+include(FetchContent)
 message(STATUS "Build extern")
+set(fftpack_GIT_TAG main)
+set(pFUnit_GIT_TAG cf37fb694f7c015d3718c1b4f7f3e9a56613067a) # fixes fetch content
+set(test-drive_GIT_TAG main)
 add_subdirectory(extern)
 
 message(STATUS "Build src")
+include(GNUInstallDirs)
 add_subdirectory(src)
 
 find_package(Doxygen)
