@@ -29,9 +29,7 @@ You can build the documentation separately with
 cmake --build build --target doxygen_docs 
 ```
 
-Note that `doc/Doxygen.in` was generated using `doxygen -g doc/Doxygen.in`
-(see [doxygen tutorial](https://www.doxygen.nl/manual/starting.html)) and
-see [Documenting Fotran with Doxygen](https://en.wikibooks.org/wiki/Fortran/Documenting_Fortran) for more details.
+See [Documenting Fotran with Doxygen](https://en.wikibooks.org/wiki/Fortran/Documenting_Fortran) for some more details.
 
 You can also check to see if a downstream project can find/fetch this package.
 
