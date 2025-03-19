@@ -8,6 +8,7 @@ option(FETCH_HELLOSPBLAS "ON - fetches HelloSPBLAS, OFF - use local installation
 
 if(${FETCH_HELLOSPBLAS})
     include(FetchContent)
+    message(STATUS "Downloading HelloSPBLAS.")
     FetchContent_Declare(
         HelloSPBLAS 
         GIT_REPOSITORY "https://github.com/jfdev001/hello-sparse-blas" 
@@ -15,14 +16,11 @@ if(${FETCH_HELLOSPBLAS})
     )
     FetchContent_MakeAvailable(HelloSPBLAS) 
 else()
+    message(STATUS "Finding HelloSPBLAS locally.")
     find_package(HelloSPBLAS REQUIRED)
 endif()
 
 add_executable(hello hello.f90) 
-
-# test-drive and fftpack have ${LIBNAME}_INCLUDE_DIR...
-# TODO: need to include stuff here .... maybe use helper function... link_library
-#target_include_directories(hello PUBLIC HelloSPBLAS)
 
 target_link_libraries(hello PRIVATE HelloSPBLAS)
 
