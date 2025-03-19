@@ -30,6 +30,10 @@ You can build the documentation separately with
 cmake --build build --target doxygen_docs 
 ```
 
+Note that `doc/Doxygen.in` was generated using `doxygen -g doc/Doxygen.in`
+(see [doxygen tutorial](https://www.doxygen.nl/manual/starting.html)) and
+see [Documenting Fotran with Doxygen](https://en.wikibooks.org/wiki/Fortran/Documenting_Fortran) for more details.
+
 You can also check to see if a downstream project can find/fetch this package.
 
 ```
@@ -46,6 +50,8 @@ cd test/downstream_project/
 # On Writing CMakeLists for Fortran
 
 In the `**/CMakeLists.txt`, the packages 
+[`fortran-lang/stdlib`](https://github.com/fortran-lang/stdlib),
+[`libfortran-support`](https://gitlab.dkrz.de/icon-libraries/libfortran-support),
 [`fftpack`](https://github.com/fortran-lang/fftpack), 
 [`test-drive`](https://github.com/fortran-lang/test-drive),
 [`libiconmath`](https://gitlab.dkrz.de/icon-libraries/libiconmath), and 
