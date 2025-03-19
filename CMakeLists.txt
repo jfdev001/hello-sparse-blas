@@ -20,7 +20,6 @@ endif()
 
 # These can be changed with -D... flag during build config 
 set(MKLLIB ${MKLROOT}/lib CACHE PATH "Path to Intel MKL Libraries")
-set(MKLINCLUDE ${MKLROOT}/include CACHE PATH "Path to Intel MKL include files")
 
 # Get cmake functions 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")

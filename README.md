@@ -16,9 +16,8 @@ Then, you can configure, build, and run tests for the project.
 ```
 
 Alternatively, if on a system where you need to specify a different MKL library
-and MKL include path, you can do this with the flags `-DMKLLIB` and `-DMKLINCLUDE`
-during configuration. The below bash script does the necessary configuration,
-as an example, for DKRZ's Levante.
+you can do this with the flags `-DMKLLIB` during configuration. The below bash 
+script does the necessary configuration, as an example, for DKRZ's Levante.
 
 ```shell
 ./config/intel_levante_pfunit
