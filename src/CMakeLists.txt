@@ -4,30 +4,15 @@ set(HelloSPBLAS_SOURCES
     ${dir}/mo_square.f90
 )
 
-
 # modified from fftpack/CMakeLists.txt and stdlib/src/CMakeLists.txt
 set(Fortran_MODULE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/mod/")
-set(Fortran_MODULE_DIRECTORY ${Fortran_MODULE_DIRECTORY} PARENT_SCOPE)
+set(PROJECT_INCLUDE_DIR ${Fortran_MODULE_DIRECTORY})
+set(PROJECT_INCLUDE_DIR ${PROJECT_INCLUDE_DIR} PARENT_SCOPE) # allow include in test/*.f90
 
 if(NOT EXISTS ${Fortran_MODULE_DIRECTORY})
     file(MAKE_DIRECTORY "${Fortran_MODULE_DIRECTORY}")
 endif()
 
-# TODO: how could i expose this to the user if they need it???
-set(PROJECT_INCLUDE_DIR ${Fortran_MODULE_DIRECTORY})
-set(PROJECT_INCLUDE_DIR ${PROJECT_INCLUDE_DIR} PARENT_SCOPE)
-
-# the set fortran module directory seems to fail in the function...
-#add_fortran_library(
-    #${PROJECT_NAME}
-    #${Fortran_MODULE_DIRECTORY} # relevant for build 
-    #${CMAKE_INSTALL_INCLUDEDIR} # relevant for installation only
-    #${PROJECT_VERSION}
-    #${PROJECT_VERSION_MAJOR}
-    #${HelloSPBLAS_SOURCES} # defined in src/CMakeLists.txt, ${ARGN}
-#)
-
-# TODO:
 add_library(${PROJECT_NAME} ${HelloSPBLAS_SOURCES})
 set_target_properties(
     ${PROJECT_NAME}
@@ -38,22 +23,26 @@ set_target_properties(
 )
 target_include_directories(${PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${Fortran_MODULE_DIRECTORY}>
-    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}> # what about prefix?
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}> 
 )
 
 # Could use cmake/helpers.cmake::link_libraries but fftpack include dir is not needed
 target_link_libraries(${PROJECT_NAME} fftpack)
 
-# installation/configuration step (makes find_package work!)
-# from fftpack/install/CMakeLists.txt 
-# TODO: okay, instsall puts mo_square.mod into flat installation prefix...
-# need to have it be in include or mod
-install_library( # depends on `add_fortran_library` occurring first
-    ${PROJECT_NAME}
-    ${CMAKE_INSTALL_LIBDIR}
-    ${CMAKE_INSTALL_BINDIR}
-    ${Fortran_MODULE_DIRECTORY}
-    ${CMAKE_INSTALL_PREFIX}
+# installation/configuration steps (modified from fotran-lang/stdlib)
+install(
+    TARGETS ${PROJECT_NAME}
+    EXPORT ${PROJECT_NAME}Targets
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    # Put all dependency .mod files in this dir (e.g., fftpack, test-drive)
+    INCLUDES DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR} 
+)
+install(
+    DIRECTORY ${Fortran_MODULE_DIRECTORY}
+    # Put all *my* library .mod in this dir 
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}
 )
 
 include(CMakePackageConfigHelpers)
@@ -76,11 +65,12 @@ export(
     FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}Targets.cmake
 )   
 
-install( # does this also need to be modifieid??? TODO
+install( 
     EXPORT ${PROJECT_NAME}Targets
     FILE ${PROJECT_NAME}Targets.cmake
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )
+
 install(
     FILES
         ${CMAKE_BINARY_DIR}/${PROJECT_NAME}Config.cmake
@@ -90,7 +80,7 @@ install(
 
 # modified from fftpack and test-drive 
 configure_file(
-  ${PROJECT_SOURCE_DIR}/cmake/template.pc # modified to have template.pc not in src
+  ${PROJECT_SOURCE_DIR}/cmake/template.pc 
   ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.pc
   @ONLY
 )

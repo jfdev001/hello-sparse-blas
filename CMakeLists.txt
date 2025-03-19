@@ -42,9 +42,6 @@ else()
     message(STATUS "Doxygen not found, not building docs")
 endif()
 
-
-# TODO: move installation to src dir as well?
-
 # Add testing last (from test-drive)
 if (${TEST_DRIVE} OR ${PFUNIT})
     include(CTest)

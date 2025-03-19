@@ -45,13 +45,13 @@ function(install_library lib_name lib_install_dir bin_install_dir mod_dir instal
         RUNTIME DESTINATION ${bin_install_dir}
         LIBRARY DESTINATION ${lib_install_dir}
         ARCHIVE DESTINATION ${lib_install_dir}
-        # TODO: more accurately call install_prefix?? was install_dir/include
-        # before...
+        # Put all dependency .mod files in this dir (e.g., fftpack, test-drive)
         INCLUDES DESTINATION ${install_dir}/${CMAKE_INSTALL_INCLUDEDIR} 
     )
     install(
         DIRECTORY ${mod_dir}
-        DESTINATION ${install_dir}
+        # Put all *my* library .mod in this dir 
+        DESTINATION ${install_dir}/${CMAKE_INSTALL_INCLUDEDIR}
     )
 endfunction()
 
