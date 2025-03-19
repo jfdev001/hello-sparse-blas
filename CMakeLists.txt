@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.15)
 
-# Flags for testing 
-# TODO: add BUILD_TESTING --> BUILD_TESTING
+option(BUILD_SHARED_LIBS "Build shared libraries" ON)
+
+option(BUILD_TESTING "Build tests" OFF)
 option(PFUNIT "ON - using pFUnit for unit tests, OFF - skip building pfunit tests" OFF)
 option(TEST_DRIVE "ON - Using test-drive for unittests, OFF - skip building test-drive tests" OFF)
 
@@ -42,7 +43,7 @@ else()
 endif()
 
 # Add testing last (from test-drive)
-if (${TEST_DRIVE} OR ${PFUNIT})
+if (${BUILD_TESTING})
     include(CTest)
     enable_testing()
     add_subdirectory(test)

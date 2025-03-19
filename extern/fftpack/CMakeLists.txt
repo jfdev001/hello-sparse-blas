@@ -9,5 +9,5 @@ FetchContent_Declare(
 )
 
 message(STATUS "Make available FFTPACK")
-set(BUILD_TESTING OFF)
+set(BUILD_TESTING OFF) # prevents building tests for fftpack 
 FetchContent_MakeAvailable(fftpack)

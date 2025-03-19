@@ -4,6 +4,7 @@
 curdir=$(pwd)
 [[ $curdir == *"config"* ]] && echo "must be in root project dir" && exit 1 
 cmake -S . -B build \
+    -DBUILD_TESTING=ON\
     -DCMAKE_Fortran_COMPILER=mpiifort \
     -DMKLLIB=/sw/spack-levante/intel-oneapi-mkl-2022.0.1-ttdktf/mkl/2022.0.1/lib/intel64/\
     -DCMAKE_INSTALL_PREFIX=build/installed\
