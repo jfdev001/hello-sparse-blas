@@ -22,13 +22,13 @@ set(MKLLIB ${MKLROOT}/lib CACHE PATH "Path to Intel MKL Libraries")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
 
-# build externals with specified version corresponding to git tag 
+# build dependenciesals with specified version corresponding to git tag 
 include(FetchContent)
-message(STATUS "Build extern")
+message(STATUS "Build dependencies")
 set(fftpack_GIT_TAG main)
 set(pFUnit_GIT_TAG cf37fb694f7c015d3718c1b4f7f3e9a56613067a) # fixes fetch content
 set(test-drive_GIT_TAG main)
-add_subdirectory(extern)
+add_subdirectory(dependencies)
 
 message(STATUS "Build src")
 include(GNUInstallDirs)
