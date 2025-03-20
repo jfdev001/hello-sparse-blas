@@ -78,7 +78,7 @@ install(
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )
 
-# Export a pkgconfig file (modified from fftpack, test-drive, and fortan-lang/stdlib)
+# Export a pkg-config file (from test-drive, fortran-lang/stdlib)
 configure_file(
   ${PROJECT_SOURCE_DIR}/cmake/template.pc 
   ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.pc
