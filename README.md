@@ -16,7 +16,7 @@ Then, you can configure, build, and run tests for the project.
 ```
 
 Alternatively, if on a system where you need to specify a different MKL library
-you can do this with the flags `-DMKLLIB` during configuration. The below bash 
+you can do this with the flags during configuration. The below bash 
 script does the necessary configuration, as an example, for DKRZ's Levante.
 
 ```shell

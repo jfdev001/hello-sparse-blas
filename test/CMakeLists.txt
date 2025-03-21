@@ -21,8 +21,13 @@ if(${ENABLE_SPBLAS})
         test_spblas.f90
     )
 
+    # Add include directories
+    target_include_directories(
+        test_spblas 
+        PRIVATE ${MKLINCLUDE}
+    )
+
     # Specify the MKL libraries for linking
-    # NOTE: No target_include_directories MKL INCLUDE... even tho link line advisor suggests it
     target_link_libraries(
         test_spblas
         PRIVATE
