@@ -18,10 +18,11 @@
 ! solved... could use that also as a reference.
 INCLUDE "mkl_spblas.f90"
 PROGRAM TEST_SPBLAS
-    USE mkl_spblas, ONLY: sparse_matrix_t, matrix_descr, &
-                          mkl_sparse_s_create_csr, mkl_sparse_s_create_coo, mkl_sparse_s_mv, &
-                          SPARSE_INDEX_BASE_ONE, SPARSE_MATRIX_TYPE_GENERAL, &
-                          SPARSE_OPERATION_NON_TRANSPOSE
+    USE mkl_spblas
+    !ONLY: sparse_matrix_t, matrix_descr, &
+                          !mkl_sparse_s_create_csr, mkl_sparse_s_create_coo, mkl_sparse_s_mv, &
+                          !SPARSE_INDEX_BASE_ONE, SPARSE_MATRIX_TYPE_GENERAL, &
+                          !SPARSE_OPERATION_NON_TRANSPOSE
 
     IMPLICIT NONE
 
@@ -56,27 +57,26 @@ PROGRAM TEST_SPBLAS
     ia = [1, 3, 5, 8, 9]
     ja = [1, 2, 2, 4, 3, 4, 5, 6]
 
-    stat = mkl_sparse_s_create_csr( &
-           a, SPARSE_INDEX_BASE_ONE, rows, cols, ia(1:4), ia(2:5), ja, values)
+    stat = mkl_sparse_s_create_csr(&
+        a, SPARSE_INDEX_BASE_ONE, rows, cols, ia(1:4), ia(2:5), ja, values)
 
-    PRINT *, "stat create = ", stat
+    !PRINT *, "stat create = ", stat
     descr%TYPE = SPARSE_MATRIX_TYPE_GENERAL
 
     ! create coo
     !row_indx = [1, 1, 2, 2, 3, 3, 3, 4]
     !col_indx = [1, 2, 2, 4, 3, 4, 5, 6]
-    !stat = mkl_sparse_s_create_coo( &
-           !A_coo, SPARSE_INDEX_BASE_ONE, rows, cols, nnz, row_indx, col_indx, &
-           !values)
+    !stat = mkl_sparse_s_create_coo(A_coo, SPARSE_INDEX_BASE_ONE, rows, cols, nnz, row_indx, col_indx, values)
+
     !PRINT *, "stat create = ", stat
     !descr%TYPE = SPARSE_MATRIX_TYPE_GENERAL
     !PRINT *, "descr%TYPE", descr%TYPE
 
     ! spmv csr
-    stat = mkl_sparse_s_mv(SPARSE_OPERATION_NON_TRANSPOSE, 1.0, a, descr, x, 0.0, y)
-    PRINT *, "stat mv = ", stat
-    PRINT *, "result csr  = ", y
-    PRINT *, "expected = ", [30., 70., 180., 80.]
+    !stat = mkl_sparse_s_mv(SPARSE_OPERATION_NON_TRANSPOSE, 1.0, a, descr, x, 0.0, y)
+    !PRINT *, "stat mv = ", stat
+    !PRINT *, "result csr  = ", y
+    !PRINT *, "expected = ", [30., 70., 180., 80.]
 
     !! spmv coo
     !stat = mkl_sparse_s_mv( &

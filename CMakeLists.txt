@@ -16,6 +16,7 @@ project(
 )
 
 # Set paths to Intel oneAPI MKL
+# TODO: something wrong with spblas call??
 if(${ENABLE_SPBLAS})
     set(MKLROOT $ENV{MKLROOT})  # Assuming MKLROOT is already set in the environment
     if (NOT MKLROOT)
