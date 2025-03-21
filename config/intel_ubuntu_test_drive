@@ -12,6 +12,7 @@ cmake --build build
 cd build
 # name from test/CMakeLists.txt build_tests(FIRST_ARG ...)
 ctest -R test_drive_square_tests
+./test/test_spblas
 # build docs
 #cmake --build . --target doxygen_docs 
 )
