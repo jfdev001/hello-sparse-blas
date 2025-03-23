@@ -3,6 +3,7 @@
 #
 
 # helper for building tests (from fftpack)
+variable_watch(PROJECT_INCLUDE_DIR)
 macro(build_tests testname)
     add_executable(${testname} ${ARGN})
     link_library(${testname} ${PROJECT_NAME} ${PROJECT_INCLUDE_DIR})
@@ -14,43 +15,35 @@ macro(build_tests testname)
     )
 endmacro()
 
-# Build dummy spblas exec
-if(${ENABLE_SPBLAS})
-    add_executable(
-        test_spblas 
-        test_spblas.f90
-    )
+# Define the executable target
+add_executable(
+    test_spblas 
+    test_spblas.f90
+)
 
-    # Add include directories
-    target_include_directories(
-        test_spblas 
-        PRIVATE ${MKLINCLUDE}
-    )
+# Add include directories
+target_include_directories(
+    test_spblas 
+    PRIVATE ${MKLINCLUDE}
+)
 
-    # Specify the MKL libraries for linking
-    target_link_libraries(
-        test_spblas
-        PRIVATE
-            # must be static 
-            ${MKLLIB}/libmkl_blas95_ilp64.a
-            
-            # must shared 
-            ${MKLLIB}/libmkl_intel_ilp64.so
-            ${MKLLIB}/libmkl_sequential.so # or libmkl_intel_thread.so
-            ${MKLLIB}/libmkl_core.so
+# Specify the MKL libraries for linking
+target_link_libraries(
+    test_spblas
+    PRIVATE
+        # must be static 
+        ${MKLLIB}/libmkl_blas95_ilp64.a
+        
+        # must shared 
+        ${MKLLIB}/libmkl_intel_ilp64.so
+        ${MKLLIB}/libmkl_sequential.so # or libmkl_intel_thread.so
+        ${MKLLIB}/libmkl_core.so
 
-            # standard shared libs 
-            pthread
-            m
-            dl
-    )
-
-    target_compile_options(
-        test_spblas 
-        PRIVATE
-            -i8 # required, otherwise segfaults
-    )
-endif()
+        # standard shared libs 
+        pthread
+        m
+        dl
+)
 
 # Add pfunit tests
 if (${PFUNIT}) 

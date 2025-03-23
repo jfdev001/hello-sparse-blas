@@ -17,6 +17,7 @@ add_library(${PROJECT_NAME} ${HelloSPBLAS_SOURCES})
 set_target_properties(
     ${PROJECT_NAME}
     PROPERTIES
+        Fortran_PREPROCESS ON
         POSITION_INDEPENDENT_CODE ON
         VERSION ${PROJECT_VERSION}
         Fortran_MODULE_DIRECTORY ${Fortran_MODULE_DIRECTORY}
@@ -27,7 +28,10 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 )
 
 # Could use cmake/helpers.cmake::link_libraries but fftpack include dir is not needed
-target_link_libraries(${PROJECT_NAME} fftpack)
+if(${ENABLE_FFTPACK})
+    target_compile_definitions(${PROJECT_NAME} PRIVATE __FFTPACK)
+    target_link_libraries(${PROJECT_NAME} fftpack)
+endif()
 
 # installation/configuration steps (modified from fotran-lang/stdlib)
 install(

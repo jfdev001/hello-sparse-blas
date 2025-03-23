@@ -4,7 +4,7 @@ Demonstrate sparse matrix-vector multiplication with Intel MKL. Also has
 various cmake structural components that are intended to be for generic 
 projects.
 
-Use either `pFUnit` or `test-drive` for unit testing.
+Can easily use `pFUnit` or `test-drive` for unit testing.
 
 Make sure you have the [Intel oneAPI HPC Toolkit](https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit-download.html?packages=hpc-toolkit&hpc-toolkit-os=linux&hpc-toolkit-lin=apt) or [Intel Fortran Essentials](https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit-download.html?packages=fortran-essentials&fortran-essentials-os=linux&fortran-essentials-lin=apt).
 
@@ -16,7 +16,7 @@ Then, you can configure, build, and run tests for the project.
 ```
 
 Alternatively, if on a system where you need to specify a different MKL library
-you can do this with the flags `-DMKLLIB` during configuration. The below bash 
+you can do this with the flags during configuration. The below bash 
 script does the necessary configuration, as an example, for DKRZ's Levante.
 
 ```shell
