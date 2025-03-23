@@ -1,5 +1,5 @@
 #!/usr/bin/bash
+[[ -d build-spblas ]] && rm -rf build-spblas 
 cmake -S . -B build-spblas -DCMAKE_Fortran_COMPILER=ifx -DBUILD_TESTING=ON
 cmake --build build-spblas
 ./build-spblas/test/test_spblas 
-./build-spblas/test_root_spblas

@@ -5,7 +5,9 @@
 !!
 
 MODULE mo_square
-    !USE fftpack
+    #ifdef __FFTPACK
+    USE fftpack
+    #endif
     IMPLICIT NONE
 
 CONTAINS

@@ -1,10 +1,12 @@
 # from dynamics 
 # Get FFTPACK
-message(STATUS "Building fftpack")
-add_subdirectory(fftpack)
+if(${ENABLE_FFTPACK})
+    message(STATUS "Building fftpack")
+    add_subdirectory(fftpack)
+endif()
 
 # Get test drive
-if (${TEST_DRIVE})
+if (${ENABLE_TEST_DRIVE})
     message(STATUS "Building test-drive")
     add_subdirectory(test-drive)
     set(test-drive_LIBRARY ${test-drive_LIBRARY} PARENT_SCOPE)
@@ -12,7 +14,7 @@ if (${TEST_DRIVE})
 endif()
 
 # Get pfunit
-if (${PFUNIT})
+if(${ENABLE_PFUNIT})
     message(STATUS "Building pFUnit")
     add_subdirectory(pFUnit)
 endif()

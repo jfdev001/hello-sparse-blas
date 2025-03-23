@@ -44,6 +44,12 @@ if(${ENABLE_SPBLAS})
             m
             dl
     )
+
+    target_compile_options(
+        test_spblas 
+        PRIVATE
+            -i8 # required, otherwise segfaults
+    )
 endif()
 
 # Add pfunit tests
