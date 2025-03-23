@@ -5,7 +5,7 @@
 !!
 
 MODULE mo_square
-    USE fftpack
+    !USE fftpack
     IMPLICIT NONE
 
 CONTAINS

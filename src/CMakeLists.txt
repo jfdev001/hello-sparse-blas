@@ -27,7 +27,8 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 )
 
 # Could use cmake/helpers.cmake::link_libraries but fftpack include dir is not needed
-target_link_libraries(${PROJECT_NAME} fftpack)
+# TODO: 
+#target_link_libraries(${PROJECT_NAME} fftpack)
 
 # installation/configuration steps (modified from fotran-lang/stdlib)
 install(
