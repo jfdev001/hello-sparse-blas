@@ -19,7 +19,7 @@ project(
 
 # Set paths to Intel oneAPI MKL
 if(${ENABLE_SPBLAS})
-    set(MKLROOT $ENV{MKLROOT})  # Assuming MKLROOT is already set in the environment
+    set(MKLROOT $ENV{MKLROOT} CACHE PATH "Installation directory of Intel MKL")
     if (NOT MKLROOT)
         message(FATAL_ERROR "MKLROOT environment variable is not set.")
     endif()
