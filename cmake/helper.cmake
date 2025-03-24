@@ -5,6 +5,38 @@
 # 
 # modified from fftpack
 
+function(link_spblas targ)
+    # Add include directories
+    target_include_directories(
+        ${targ}
+        PRIVATE ${MKLINCLUDE}
+    )
+
+    # Specify the MKL libraries for linking
+    target_link_libraries(
+        ${targ}
+        PRIVATE
+            # must be static 
+            ${MKLLIB}/libmkl_blas95_ilp64.a
+            
+            # must shared 
+            ${MKLLIB}/libmkl_intel_ilp64.so
+            ${MKLLIB}/libmkl_sequential.so # or libmkl_intel_thread.so
+            ${MKLLIB}/libmkl_core.so
+
+            # standard shared libs 
+            pthread
+            m
+            dl
+    )
+
+    target_compile_options(
+        ${targ}
+        PRIVATE
+            -i8 # required, otherwise segfaults
+    )
+endfunction()
+
 # Use to include and export headers
 function(include_headers lib dir install_dir)
     target_include_directories(

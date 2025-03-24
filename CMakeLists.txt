@@ -28,6 +28,7 @@ if(${ENABLE_SPBLAS})
 endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
+include("${PROJECT_SOURCE_DIR}/cmake/helper.cmake")
 
 # build externals with specified version corresponding to git tag 
 include(FetchContent)

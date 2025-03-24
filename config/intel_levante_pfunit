@@ -7,6 +7,7 @@ cmake -S . -B build \
     -DBUILD_TESTING=ON\
     -DCMAKE_Fortran_COMPILER=mpiifort \
     -DMKLLIB=/sw/spack-levante/intel-oneapi-mkl-2022.0.1-ttdktf/mkl/2022.0.1/lib/intel64/\
+    -DMKLINCLUDE=/sw/spack-levante/intel-oneapi-mkl-2022.0.1-ttdktf/mkl/2022.0.1/include\
     -DCMAKE_INSTALL_PREFIX=build/installed\
     -DENABLE_PFUNIT=ON
     

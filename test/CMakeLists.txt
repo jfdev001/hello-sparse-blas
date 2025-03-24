@@ -21,35 +21,7 @@ if(${ENABLE_SPBLAS})
         test_spblas.f90
     )
 
-    # Add include directories
-    target_include_directories(
-        test_spblas 
-        PRIVATE ${MKLINCLUDE}
-    )
-
-    # Specify the MKL libraries for linking
-    target_link_libraries(
-        test_spblas
-        PRIVATE
-            # must be static 
-            ${MKLLIB}/libmkl_blas95_ilp64.a
-            
-            # must shared 
-            ${MKLLIB}/libmkl_intel_ilp64.so
-            ${MKLLIB}/libmkl_sequential.so # or libmkl_intel_thread.so
-            ${MKLLIB}/libmkl_core.so
-
-            # standard shared libs 
-            pthread
-            m
-            dl
-    )
-
-    target_compile_options(
-        test_spblas 
-        PRIVATE
-            -i8 # required, otherwise segfaults
-    )
+    link_spblas(test_spblas)
 endif()
 
 # Add pfunit tests

@@ -33,6 +33,11 @@ if(${ENABLE_FFTPACK})
     target_link_libraries(${PROJECT_NAME} fftpack)
 endif()
 
+if(${ENABLE_SPBLAS})
+    target_compile_definitions(${PROJECT_NAME} PRIVATE __INTEL_SPBLAS)
+    link_spblas(${PROJECT_NAME})
+endif()
+
 # installation/configuration steps (modified from fotran-lang/stdlib)
 install(
     TARGETS ${PROJECT_NAME}
