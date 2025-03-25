@@ -8,12 +8,15 @@
 INCLUDE "mkl_spblas.f90"
 #endif
 MODULE mo_square
-    #ifdef FFTPACK
+
+#ifdef FFTPACK
     USE fftpack
-    #endif
-    #ifdef INTEL_SPBLAS
+#endif
+
+#ifdef INTEL_SPBLAS
     USE mkl_spblas  
-    #endif
+#endif
+
     IMPLICIT NONE
 
 CONTAINS
