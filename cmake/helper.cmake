@@ -9,7 +9,7 @@ function(link_spblas targ)
     # Add include directories
     target_include_directories(
         ${targ}
-        PRIVATE ${MKLINCLUDE}
+        PUBLIC ${MKLINCLUDE}
     )
 
     # Specify the MKL libraries for linking

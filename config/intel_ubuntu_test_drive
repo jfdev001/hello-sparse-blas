@@ -1,12 +1,13 @@
 #!/usr/bin/bash
 # @brief Baseline configuration assuming standard oneapi installation via apt.
+builddocs=$1
 (
 curdir=$(pwd)
 [[ $curdir == *"config"* ]] && echo "must be in root project dir" && exit 1 
 #[[ -d build ]] && rm -rf build
 cmake -S . -B build\
     -DBUILD_TESTING=ON\
-    -DENABLE_SPBLAS=ON\
+    -DENABLE_SPBLAS=OFF\
     -DENABLE_PFUNIT=OFF\
     -DENABLE_TEST_DRIVE=ON\
     -DCMAKE_Fortran_COMPILER=ifx\
@@ -15,8 +16,8 @@ cmake --build build
 cd build
 # name from test/CMakeLists.txt build_tests(FIRST_ARG ...)
 ctest -R test_drive_square_tests
-./build/test/test_spblas
+# test/test_spblas
 # build docs
-#cmake --build . --target doxygen_docs 
+[[ -n $builddocs ]] && cmake --build . --target doxygen_docs 
 )
 

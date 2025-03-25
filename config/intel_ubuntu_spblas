@@ -1,5 +1,9 @@
 #!/usr/bin/bash
+# @brief intel_ubunt_spblas [builddocs] 
+#   where buildodcs is any nonempty string to trigger doc build
+builddocs=$1
 [[ -d build-spblas ]] && rm -rf build-spblas 
 cmake -S . -B build-spblas -DCMAKE_Fortran_COMPILER=ifx -DBUILD_TESTING=ON
 cmake --build build-spblas
 ./build-spblas/test/test_spblas 
+[[ -n $builddocs ]] && cmake --build build-spblas --target doxygen_docs 

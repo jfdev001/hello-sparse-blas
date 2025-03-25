@@ -24,7 +24,7 @@ if(${ENABLE_SPBLAS})
         message(FATAL_ERROR "MKLROOT environment variable is not set.")
     endif()
     set(MKLLIB ${MKLROOT}/lib CACHE PATH "Path to Intel MKL Libraries")
-    set(MKLINCLUDE ${MKLROOT}/include CACHE PATH "Path to Intel MKL include files")
+    set(MKLINCLUDE ${MKLROOT}/include/ CACHE PATH "Path to Intel MKL include files")
 endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
