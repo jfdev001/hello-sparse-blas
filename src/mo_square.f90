@@ -4,14 +4,14 @@
 !!  This module defines a function to compute the square of a given real number.
 !!
 
-#ifdef __INTEL_SPBLAS
+#ifdef INTEL_SPBLAS
 INCLUDE "mkl_spblas.f90"
 #endif
 MODULE mo_square
-    #ifdef __FFTPACK
+    #ifdef FFTPACK
     USE fftpack
     #endif
-    #ifdef __INTEL_SPBLAS
+    #ifdef INTEL_SPBLAS
     USE mkl_spblas  
     #endif
     IMPLICIT NONE

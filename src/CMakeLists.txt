@@ -27,15 +27,14 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}> 
 )
 
-# Could use cmake/helpers.cmake::link_libraries but fftpack include dir is not needed
 if(${ENABLE_FFTPACK})
-    target_compile_definitions(${PROJECT_NAME} PRIVATE __FFTPACK)
-    target_link_libraries(${PROJECT_NAME} fftpack)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE FFTPACK)
+    target_link_libraries(${PROJECT_NAME} PRIVATE fftpack)
 endif()
 
 if(${ENABLE_SPBLAS})
-    target_compile_definitions(${PROJECT_NAME} PRIVATE __INTEL_SPBLAS)
-    link_spblas(${PROJECT_NAME})
+    target_compile_definitions(${PROJECT_NAME} PRIVATE INTEL_SPBLAS)
+    link_spblas(${PROJECT_NAME})    
 endif()
 
 # installation/configuration steps (modified from fotran-lang/stdlib)
