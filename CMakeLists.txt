@@ -19,12 +19,18 @@ project(
 
 # Set paths to Intel oneAPI MKL
 if(${ENABLE_SPBLAS})
-    set(MKLROOT $ENV{MKLROOT} CACHE PATH "Installation directory of Intel MKL")
-    if (NOT MKLROOT)
-        message(FATAL_ERROR "MKLROOT environment variable is not set.")
+    #find_package(MKL CONFIG)
+    if (NOT MKL_FOUND)
+        message(STATUS "Did not find MKL, trying to use env vars/user input")
+        set(MKLROOT $ENV{MKLROOT} CACHE PATH "Installation directory of Intel MKL")
+        if (NOT MKLROOT)
+            message(FATAL_ERROR "MKLROOT environment variable is not set.")
+        endif()
+        set(MKLLIB ${MKLROOT}/lib CACHE PATH "Path to Intel MKL Libraries")
+        set(MKLINCLUDE ${MKLROOT}/include/ CACHE PATH "Path to Intel MKL include files")
+    else()
+        message(STATUS "Found MKL")
     endif()
-    set(MKLLIB ${MKLROOT}/lib CACHE PATH "Path to Intel MKL Libraries")
-    set(MKLINCLUDE ${MKLROOT}/include/ CACHE PATH "Path to Intel MKL include files")
 endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
