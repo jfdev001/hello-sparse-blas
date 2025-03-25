@@ -1,0 +1,15 @@
+#!/usr/bin/bash
+[[ -d build-spblas-levante ]] && rm -rf build-spblas-levante 
+cmake -S . -B build-spblas-levante\
+    -DCMAKE_Fortran_COMPILER=ifx\
+    -DMKLROOT=/sw/spack-levante/intel-oneapi-mkl-2022.0.1-ttdktf/mkl/2022.0.1\
+    -DMKLLIB=/sw/spack-levante/intel-oneapi-mkl-2022.0.1-ttdktf/mkl/2022.0.1/lib/intel64/\
+    -DMKLINCLUDE=/sw/spack-levante/intel-oneapi-mkl-2022.0.1-ttdktf/mkl/2022.0.1/include\
+    -DBUILD_TESTING=ON\
+    -DENABLE_SPBLAS=ON\
+    -DENABLE_PFUNIT=OFF\
+    -DENABLE_TEST_DRIVE=OFF
+
+cmake --build build-spblas-levante
+
+./build-spblas-levante/test/test_spblas 

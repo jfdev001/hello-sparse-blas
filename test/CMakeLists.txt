@@ -14,30 +14,15 @@ macro(build_tests testname)
     )
 endmacro()
 
-# Define the executable target
-add_executable(
-    test_spblas 
-    test_spblas.f90
-)
+# Build dummy spblas exec
+if(${ENABLE_SPBLAS})
+    add_executable(
+        test_spblas 
+        test_spblas.f90
+    )
 
-# Specify the MKL libraries for linking
-# NOTE: No target_include_directories MKL INCLUDE... even tho link line advisor suggests it
-target_link_libraries(
-    test_spblas
-    PRIVATE
-        # must be static 
-        ${MKLLIB}/libmkl_blas95_ilp64.a
-        
-        # must shared 
-        ${MKLLIB}/libmkl_intel_ilp64.so
-        ${MKLLIB}/libmkl_sequential.so # or libmkl_intel_thread.so
-        ${MKLLIB}/libmkl_core.so
-
-        # standard shared libs 
-        pthread
-        m
-        dl
-)
+    link_spblas(test_spblas)
+endif()
 
 # Add pfunit tests
 if (${PFUNIT}) 

@@ -19,10 +19,10 @@
 INCLUDE "mkl_spblas.f90"
 PROGRAM TEST_SPBLAS
     USE mkl_spblas, ONLY: sparse_matrix_t, matrix_descr, &
-                          mkl_sparse_s_create_csr, mkl_sparse_s_create_coo, mkl_sparse_s_mv, &
-                          SPARSE_INDEX_BASE_ONE, SPARSE_MATRIX_TYPE_GENERAL, &
-                          SPARSE_OPERATION_NON_TRANSPOSE
-
+        mkl_sparse_s_create_csr, mkl_sparse_s_create_coo, mkl_sparse_s_mv, &
+        SPARSE_INDEX_BASE_ONE, SPARSE_MATRIX_TYPE_GENERAL, &
+        SPARSE_OPERATION_NON_TRANSPOSE
+         
     IMPLICIT NONE
 
     INTEGER, PARAMETER :: rows = 4
@@ -30,7 +30,7 @@ PROGRAM TEST_SPBLAS
 
     INTEGER, PARAMETER :: nnz = 8
 
-    INTEGER :: ia(rows + 1), ja(nnz), stat
+    INTEGER :: ia(rows+1), ja(nnz), stat
     REAL :: values(nnz), x(6), y(4), y_coo(4)
 
     TYPE(sparse_matrix_t) :: a
@@ -38,45 +38,45 @@ PROGRAM TEST_SPBLAS
 
     TYPE(sparse_matrix_t) :: A_coo
 
-    INTEGER, ALLOCATABLE :: row_indx(:)
-    INTEGER, ALLOCATABLE :: col_indx(:)
+    INTEGER, ALLOCATABLE :: row_indx(:)     
+    INTEGER, ALLOCATABLE :: col_indx(:) 
 
-    ! Matrix example taken from:
+    ! Matrix example taken from: 
     ! https://en.wikipedia.org/wiki/Sparse_matrix#Compressed_sparse_row_(CSR,_CRS_or_Yale_format)
     !
     !     | 10  20  0  0  0  0 |
     ! A = |  0  30  0 40  0  0 |
     !     |  0   0 50 60 70  0 |
-    !     |  0   0  0  0  0 80 |
+    !     |  0   0  0  0  0 80 | 
 
     ! create csr
-    ia = [1, 3, 5, 8, 9]
-    ja = [1, 2, 2, 4, 3, 4, 5, 6]
+    ia = [1,3,5,8,9]
+    ja = [1,2,2,4,3,4,5,6]
     values = [10, 20, 30, 40, 50, 60, 70, 80]
 
-    stat = mkl_sparse_s_create_csr( &
-           a, SPARSE_INDEX_BASE_ONE, rows, cols, ia(1:4), ia(2:5), ja, values)
+    stat = mkl_sparse_s_create_csr(&
+        a,SPARSE_INDEX_BASE_ONE,rows,cols,ia(1:4),ia(2:5),ja,values)
 
-    PRINT *, "stat create = ", stat
-    descr%TYPE = SPARSE_MATRIX_TYPE_GENERAL
-
+    print *, "stat create = ", stat
+    descr%type = SPARSE_MATRIX_TYPE_GENERAL
+    
     ! create coo
-    row_indx = [1, 1, 2, 2, 3, 3, 3, 4]
+    row_indx = [1, 1, 2, 2, 3, 3, 3, 4] 
     col_indx = [1, 2, 2, 4, 3, 4, 5, 6]
-    stat = mkl_sparse_s_create_coo( &
-           A_coo, SPARSE_INDEX_BASE_ONE, rows, cols, nnz, row_indx, col_indx, &
-           values)
+    stat = mkl_sparse_s_create_coo(&
+        A_coo, SPARSE_INDEX_BASE_ONE, rows, cols, nnz, row_indx, col_indx,&
+        values) 
 
-    ! spmv csr
-    x = [1, 1, 1, 1, 1, 1]
-    stat = mkl_sparse_s_mv(SPARSE_OPERATION_NON_TRANSPOSE, 1.0, a, descr, x, 0.0, y)
-    PRINT *, "stat mv = ", stat
-    PRINT *, "result csr  = ", y
-    PRINT *, "expected = ", [30., 70., 180., 80.]
+    ! spmv csr 
+    x = [1,1,1,1,1,1]
+    stat = mkl_sparse_s_mv(SPARSE_OPERATION_NON_TRANSPOSE,1.0,a,descr,x,0.0,y)
+    print *, "stat mv = ", stat
+    print *, "result csr  = ", y
+    print *, "expected = ", [30., 70., 180., 80.]
 
     ! spmv coo
-    stat = mkl_sparse_s_mv( &
-           SPARSE_OPERATION_NON_TRANSPOSE, 1.0, A_coo, descr, x, 0.0, y_coo)
-    PRINT *, "result coo  = ", y_coo
+    stat = mkl_sparse_s_mv(&
+        SPARSE_OPERATION_NON_TRANSPOSE, 1.0, A_coo, descr, x, 0.0, y_coo)
+    print *, "result coo  = ", y_coo
 
-END PROGRAM TEST_SPBLAS
+END PROGRAM TEST_SPBLAS 
