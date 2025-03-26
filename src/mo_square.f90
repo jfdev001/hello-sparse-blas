@@ -1,5 +1,12 @@
 !> @file mo_square.f90 
 !! @brief Defines a module of simple mathematical operations.
+
+!! \cond
+#ifdef INTEL_SPBLAS
+    INCLUDE "mkl_spblas.f90" 
+#endif
+!! \endcond
+
 MODULE mo_square
 
 #ifdef FFTPACK
@@ -7,7 +14,7 @@ MODULE mo_square
 #endif
 
 #ifdef INTEL_SPBLAS
-    USE mkl_spblas  
+     USE mkl_spblas
 #endif
 
     IMPLICIT NONE

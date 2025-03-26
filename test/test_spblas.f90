@@ -18,11 +18,8 @@
 ! solved... could use that also as a reference.
 include "mkl_spblas.f90" ! TODO: remove this!
 PROGRAM TEST_SPBLAS
-    USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_FLOAT, C_INT, C_LONG
-    USE mkl_spblas, ONLY: sparse_matrix_t, matrix_descr, &
-        mkl_sparse_s_create_csr, mkl_sparse_s_create_coo, mkl_sparse_s_mv, &
-        SPARSE_INDEX_BASE_ONE, SPARSE_MATRIX_TYPE_GENERAL, &
-        SPARSE_OPERATION_NON_TRANSPOSE
+    USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_FLOAT, C_INT, C_LONG, C_DOUBLE
+    USE MKL_SPBLAS
          
     IMPLICIT NONE
 
@@ -31,15 +28,15 @@ PROGRAM TEST_SPBLAS
 
     INTEGER(KIND=C_INT), PARAMETER :: nnz = 8
 
-    !INTEGER(KIND=C_INT) :: ia(rows+1), ja(nnz)
-    INTEGER(KIND=C_LONG) :: ia(rows+1), ja(nnz)
+    !INTEGER(KIND=C_INT) :: ia(rows+1), ja(nnz)   ! include->segfault,w/o include->type err 
+    INTEGER(KIND=C_LONG) :: ia(rows+1), ja(nnz) ! works with include 'mkl_spblas.f90'
     INTEGER :: stat
-    REAL(KIND=C_FLOAT) :: values(nnz), x(6), y(4), y_coo(4)
+    REAL(KIND=C_DOUBLE) :: values(nnz), x(6), y(4), y_coo(4), alpha, beta
 
-    TYPE(sparse_matrix_t) :: a
-    TYPE(matrix_descr) :: descr
+    TYPE(SPARSE_MATRIX_T) :: a
+    TYPE(MATRIX_DESCR) :: descr
 
-    TYPE(sparse_matrix_t) :: A_coo
+    TYPE(SPARSE_MATRIX_T) :: A_coo
 
     INTEGER(KIND=C_INT), ALLOCATABLE :: row_indx(:)     
     INTEGER(KIND=C_INT), ALLOCATABLE :: col_indx(:) 
@@ -58,7 +55,7 @@ PROGRAM TEST_SPBLAS
     ja = [1,2,2,4,3,4,5,6]
     values = [10, 20, 30, 40, 50, 60, 70, 80]
 
-    stat = mkl_sparse_s_create_csr(&
+    stat = MKL_SPARSE_D_CREATE_CSR(&
         a,SPARSE_INDEX_BASE_ONE,rows,cols,ia(1:4),ia(2:5),ja,values)
 
     print *, "stat create = ", stat
@@ -73,15 +70,17 @@ PROGRAM TEST_SPBLAS
 
     ! spmv: 
     x = [1,1,1,1,1,1]
+    beta = 0
+    alpha = 1
     ! spmv csr 
-    stat = mkl_sparse_s_mv(SPARSE_OPERATION_NON_TRANSPOSE,1.0,a,descr,x,0.0,y)
+    stat = MKL_SPARSE_D_MV(SPARSE_OPERATION_NON_TRANSPOSE,alpha,a,descr,x,beta,y)
     print *, "stat mv = ", stat
     print *, "result csr  = ", y
     print *, "expected = ", [30., 70., 180., 80.]
 
     !! spmv coo
     !stat = mkl_sparse_d_mv(&
-        !SPARSE_OPERATION_NON_TRANSPOSE, 1.0, A_coo, descr, x, 0.0, y_coo)
+        !SPARSE_OPERATION_NON_TRANSPOSE, alpha, A_coo, descr, x, beta, y_coo)
     !print *, "result coo  = ", y_coo
 
 END PROGRAM TEST_SPBLAS 
