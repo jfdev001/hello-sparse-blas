@@ -6,13 +6,16 @@ curdir=$(pwd)
 [[ $curdir == *"config"* ]] && echo "must be in root project dir" && exit 1 
 #[[ -d build ]] && rm -rf build
 cmake -S . -B build\
-    -DBUILD_TESTING=ON\
-    -DENABLE_SPBLAS=OFF\
-    -DENABLE_PFUNIT=OFF\
-    -DENABLE_TEST_DRIVE=ON\
     -DCMAKE_Fortran_COMPILER=ifx\
+    -DBUILD_TESTING=ON\
+    -DENABLE_TEST_DRIVE=ON\
+    -DENABLE_FFTPACK=ON\
+    -DENABLE_SPBLAS=ON\
+    -DENABLE_FIND_INTEL_MKL=OFF\
+    -DENABLE_PFUNIT=OFF\
     -DCMAKE_INSTALL_PREFIX=build/installed
 cmake --build build
+cmake --build build --target install
 cd build
 # name from test/CMakeLists.txt build_tests(FIRST_ARG ...)
 ctest -R test_drive_square_tests

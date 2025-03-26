@@ -2,20 +2,24 @@
 @PACKAGE_INIT@
 
 # from libiconmath 
-# note test-drive/template.cmake and fftpack/config/CMakeLists.txt uses IF guard)
+# note test-drive/template.cmake and fftpack/install/CMakeLists.txt uses IF guard)
 include("${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@Targets.cmake")
 
 include(CMakeFindDependencyMacro)
-if(${ENABLE_FFTPACK})
+if(@ENABLE_FFTPACK@)
     find_dependency(fftpack REQUIRED)
 endif()
 
-if(${ENABLE_PFUNIT})
+if(@ENABLE_PFUNIT@)
     find_dependency(PFUNIT REQUIRED)
 endif()
 
-if (${ENABLE_TEST_DRIVE})
+if (@ENABLE_TEST_DRIVE@)
     find_dependency(test-drive REQUIRED)
+endif()
+
+if (@ENABLE_FIND_INTEL_MKL@)
+    find_dependency(MKL REQUIRED)
 endif()
 
 include(FindPackageHandleStandardArgs)

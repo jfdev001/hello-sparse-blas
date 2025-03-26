@@ -30,7 +30,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 
 if(${ENABLE_FFTPACK})
     target_compile_definitions(${PROJECT_NAME} PRIVATE FFTPACK)
-    target_link_libraries(${PROJECT_NAME} PRIVATE fftpack)
+    target_link_libraries(${PROJECT_NAME} PUBLIC fftpack)
 endif()
 
 if(${ENABLE_SPBLAS})

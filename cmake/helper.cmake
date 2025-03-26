@@ -24,7 +24,7 @@ function(link_spblas targ)
         # Specify the MKL libraries for linking
         target_link_libraries(
             ${targ}
-            PRIVATE
+            PUBLIC
                 # must be static 
                 ${MKLLIB}/libmkl_blas95_ilp64.a
                 
