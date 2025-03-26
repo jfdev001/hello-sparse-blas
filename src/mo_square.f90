@@ -1,9 +1,5 @@
 !> @file mo_square.f90 
 !! @brief Defines a module of simple mathematical operations.
-!! @todo remove the ifdef include statement since this throws off doxygen
-!#ifdef INTEL_SPBLAS 
-!INCLUDE "mkl_spblas.f90"
-!#endif
 MODULE mo_square
 
 #ifdef FFTPACK

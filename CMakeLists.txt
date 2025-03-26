@@ -4,11 +4,11 @@ option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 option(BUILD_TESTING "Build tests" OFF)
 
 option(ENABLE_SPBLAS "Build with SPBLAS" ON)
+option(ENABLE_FIND_INTEL_MKL "Find intel MKL config" OFF)
 
 option(ENABLE_FFTPACK "Build with fftpack" OFF)
 option(ENABLE_PFUNIT "Build with pFUnit" OFF)
 option(ENABLE_TEST_DRIVE "Build with test-drive" OFF)
-
 
 project(
     HelloSPBLAS 
@@ -19,7 +19,12 @@ project(
 
 # Set paths to Intel oneAPI MKL
 if(${ENABLE_SPBLAS})
-    #find_package(MKL CONFIG)
+    if (${ENABLE_FIND_INTEL_MKL})
+        find_package(MKL CONFIG)
+        get_target_property(MKLINCLUDE MKL::MKL INTERFACE_INCLUDE_DIRECTORIES)
+    endif()
+   
+    # manually set MKL vars  
     if (NOT MKL_FOUND)
         message(STATUS "Did not find MKL, trying to use env vars/user input")
         set(MKLROOT $ENV{MKLROOT} CACHE PATH "Installation directory of Intel MKL")
@@ -30,6 +35,33 @@ if(${ENABLE_SPBLAS})
         set(MKLINCLUDE ${MKLROOT}/include/ CACHE PATH "Path to Intel MKL include files")
     else()
         message(STATUS "Found MKL")
+    endif()
+
+    if(NOT EXISTS "${MKLINCLUDE}/mkl_spblas.mod")
+        set(NO_MKL_SPBLAS_MOD "
+        =======================================================================
+            ${MKLINCLUDE} does not contain mkl_spblas.mod
+            If you installed Intel MKL to a directory 
+            that requires root permissions,
+            (e.g., /opt/intel/oneapi/mkl/latest/)
+            ```
+            # alternatively... you could update secure path in sudo visudo
+            sudo -i
+            echo 'source /opt/intel/oneapi/setvars.sh > /dev/null' >> ~/.bashrc
+            source ~/.bashrc
+            your_mkl_include=/opt/intel/oneapi/mkl/latest/include
+            ifx -c your_mkl_include/mkl_spblas.f90
+            ```
+            otherwise if you installed to a directory
+            that does not require root permissions, it 
+            should be sufficient to call
+            ```
+            cd /your/mkl/include # replace with your local path
+            ifx -c mkl_spblas.f90
+            ```
+        =======================================================================
+        ")
+        message(FATAL_ERROR "${NO_MKL_SPBLAS_MOD}")
     endif()
 endif()
 

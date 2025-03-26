@@ -6,7 +6,6 @@
 # modified from fftpack
 
 function(link_spblas targ)
-    # 
     if (MKL_FOUND)
         # https://www.intel.com/content/www/us/en/docs/onemkl/developer-guide-macos/2023-0/cmake-config-for-onemkl.html
         target_compile_options(
@@ -19,7 +18,7 @@ function(link_spblas targ)
         # Add include directories
         target_include_directories(
             ${targ}
-            PUBLIC ${MKLINCLUDE}/intel64/ilp64/
+            PUBLIC ${MKLINCLUDE}
         )
 
         # Specify the MKL libraries for linking
