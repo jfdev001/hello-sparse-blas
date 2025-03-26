@@ -13,6 +13,7 @@ if(NOT EXISTS ${Fortran_MODULE_DIRECTORY})
     file(MAKE_DIRECTORY "${Fortran_MODULE_DIRECTORY}")
 endif()
 
+# Add my library
 add_library(${PROJECT_NAME} ${HelloSPBLAS_SOURCES})
 set_target_properties(
     ${PROJECT_NAME}
@@ -36,6 +37,8 @@ if(${ENABLE_SPBLAS})
     target_compile_definitions(${PROJECT_NAME} PRIVATE INTEL_SPBLAS)
     link_spblas(${PROJECT_NAME})    
 endif()
+
+
 
 # installation/configuration steps (modified from fotran-lang/stdlib)
 install(
@@ -86,7 +89,7 @@ install(
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )
 
-# Export a pkgconfig file (modified from fftpack, test-drive, and fortan-lang/stdlib)
+# Export a pkg-config file (from test-drive, fortran-lang/stdlib)
 configure_file(
   ${PROJECT_SOURCE_DIR}/cmake/template.pc 
   ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.pc

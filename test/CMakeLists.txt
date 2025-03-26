@@ -25,7 +25,7 @@ if(${ENABLE_SPBLAS})
 endif()
 
 # Add pfunit tests
-if (${PFUNIT}) 
+if (${ENABLE_PFUNIT}) 
     add_pfunit_ctest (test_square
         TEST_SOURCES test_square.pf
         LINK_LIBRARIES ${PROJECT_NAME}
@@ -35,7 +35,7 @@ if (${PFUNIT})
 endif()
 
 # Add test-drive tests
-if (${TEST_DRIVE})
+if (${ENABLE_TEST_DRIVE})
     set(
         TEST_DRIVE_SOURCES
         test_square_with_test_drive.f90 # files containing tests 

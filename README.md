@@ -8,6 +8,11 @@ Can easily use `pFUnit` or `test-drive` for unit testing.
 
 Make sure you have the [Intel oneAPI HPC Toolkit](https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit-download.html?packages=hpc-toolkit&hpc-toolkit-os=linux&hpc-toolkit-lin=apt) or [Intel Fortran Essentials](https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit-download.html?packages=fortran-essentials&fortran-essentials-os=linux&fortran-essentials-lin=apt).
 
+Make sure also that in your `${MKLROOT}/include` directory there is a file
+called `mkl_spblas.mod`. The most up to date version of Intel MKL does not 
+ship with `mkl_spblas.mod` by default, so you have to compile it separately
+via `ifx -c /path/to/mkl_spblas.f90`.
+ 
 Then, you can configure, build, and run tests for the project. 
 
 ```shell 
@@ -29,9 +34,7 @@ You can build the documentation separately with
 cmake --build build --target doxygen_docs 
 ```
 
-Note that `doc/Doxygen.in` was generated using `doxygen -g doc/Doxygen.in`
-(see [doxygen tutorial](https://www.doxygen.nl/manual/starting.html)) and
-see [Documenting Fotran with Doxygen](https://en.wikibooks.org/wiki/Fortran/Documenting_Fortran) for more details.
+See [Documenting Fotran with Doxygen](https://en.wikibooks.org/wiki/Fortran/Documenting_Fortran) for some more details.
 
 You can also check to see if a downstream project can find/fetch this package.
 

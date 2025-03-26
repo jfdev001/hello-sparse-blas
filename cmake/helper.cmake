@@ -6,35 +6,45 @@
 # modified from fftpack
 
 function(link_spblas targ)
-    # Add include directories
-    target_include_directories(
-        ${targ}
-        PRIVATE ${MKLINCLUDE}
-    )
+    if (MKL_FOUND)
+        # https://www.intel.com/content/www/us/en/docs/onemkl/developer-guide-macos/2023-0/cmake-config-for-onemkl.html
+        target_compile_options(
+            ${targ} PUBLIC $<TARGET_PROPERTY:MKL::MKL,INTERFACE_COMPILE_OPTIONS>)
+        target_include_directories(
+            ${targ} PUBLIC $<TARGET_PROPERTY:MKL::MKL,INTERFACE_INCLUDE_DIRECTORIES>)
+        target_link_libraries(
+            ${targ} PUBLIC $<LINK_ONLY:MKL::MKL>)
+    else()
+        # Add include directories
+        target_include_directories(
+            ${targ}
+            PUBLIC ${MKLINCLUDE}
+        )
 
-    # Specify the MKL libraries for linking
-    target_link_libraries(
-        ${targ}
-        PRIVATE
-            # must be static 
-            ${MKLLIB}/libmkl_blas95_ilp64.a
-            
-            # must shared 
-            ${MKLLIB}/libmkl_intel_ilp64.so
-            ${MKLLIB}/libmkl_sequential.so # or libmkl_intel_thread.so
-            ${MKLLIB}/libmkl_core.so
+        # Specify the MKL libraries for linking
+        target_link_libraries(
+            ${targ}
+            PRIVATE
+                # must be static 
+                ${MKLLIB}/libmkl_blas95_ilp64.a
+                
+                # must shared 
+                ${MKLLIB}/libmkl_intel_ilp64.so
+                ${MKLLIB}/libmkl_sequential.so # or libmkl_intel_thread.so
+                ${MKLLIB}/libmkl_core.so
 
-            # standard shared libs 
-            pthread
-            m
-            dl
-    )
+                # standard shared libs 
+                pthread
+                m
+                dl
+        )
 
-    target_compile_options(
-        ${targ}
-        PRIVATE
-            -i8 # required, otherwise segfaults
-    )
+        target_compile_options(
+            ${targ}
+            PRIVATE
+                -i8 # required, otherwise segfaults
+        )
+    endif()
 endfunction()
 
 # Use to include and export headers
