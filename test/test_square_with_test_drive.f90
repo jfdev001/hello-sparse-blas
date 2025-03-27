@@ -1,7 +1,7 @@
 ! Example module that includes mo_square and performs a dummy unit test
 MODULE test_square_with_test_drive
 
-    use mo_square
+    USE mo_square
     USE testdrive, ONLY: new_unittest, unittest_type, error_type, check
     IMPLICIT NONE 
     PRIVATE

@@ -1,6 +1,8 @@
 #!/usr/bin/bash
 # @brief Baseline configuration assuming standard oneapi installation via apt.
 builddocs=$1
+DEFAULT_FIND_INTEL_MKL="ON"
+FIND_INTEL_MKL="${FIND_INTEL_MKL:-$DEFAULT_FIND_INTEL_MKL}"
 (
 curdir=$(pwd)
 [[ $curdir == *"config"* ]] && echo "must be in root project dir" && exit 1 
@@ -11,7 +13,7 @@ cmake -S . -B build\
     -DENABLE_TEST_DRIVE=ON\
     -DENABLE_FFTPACK=ON\
     -DENABLE_SPBLAS=ON\
-    -DENABLE_FIND_INTEL_MKL=OFF\
+    -DENABLE_FIND_INTEL_MKL=${FIND_INTEL_MKL}\
     -DENABLE_PFUNIT=OFF\
     -DCMAKE_INSTALL_PREFIX=build/installed
 cmake --build build
@@ -19,7 +21,7 @@ cmake --build build --target install
 cd build
 # name from test/CMakeLists.txt build_tests(FIRST_ARG ...)
 ctest -R test_drive_square_tests
-# test/test_spblas
+test/test_spblas
 # build docs
 [[ -n $builddocs ]] && cmake --build . --target doxygen_docs 
 )
