@@ -8,12 +8,15 @@
 function(link_spblas targ)
     if (MKL_FOUND)
         # https://www.intel.com/content/www/us/en/docs/onemkl/developer-guide-macos/2023-0/cmake-config-for-onemkl.html
-        target_compile_options(
-            ${targ} PUBLIC $<TARGET_PROPERTY:MKL::MKL,INTERFACE_COMPILE_OPTIONS>)
         target_include_directories(
             ${targ} PUBLIC $<TARGET_PROPERTY:MKL::MKL,INTERFACE_INCLUDE_DIRECTORIES>)
         target_link_libraries(
             ${targ} PUBLIC $<LINK_ONLY:MKL::MKL>)
+
+        # NOTE: If these are PUBLIC, it means(?) the unit tests inherit these
+        # options and this leads to an error where `CALL check` is unrecognized...
+        target_compile_options(
+            ${targ} PRIVATE $<TARGET_PROPERTY:MKL::MKL,INTERFACE_COMPILE_OPTIONS>)
     else()
         # Add include directories
         target_include_directories(
@@ -107,7 +110,7 @@ endfunction()
 
 # Links the supplied library
 function(link_library targ lib include_dir)
-    target_link_libraries(${targ} ${lib})
+    target_link_libraries(${targ} PUBLIC ${lib})
     target_include_directories(${targ} PUBLIC $<BUILD_INTERFACE:${include_dir}>)
 endfunction()
 

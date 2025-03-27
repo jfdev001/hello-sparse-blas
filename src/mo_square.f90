@@ -1,12 +1,11 @@
-!> @file mo_square.f90 
-!! @brief Defines a module of simple mathematical operations.
-
-!! \cond
+! Prevents doxygen from documenting the included module 
+!! @cond
 #ifdef INTEL_SPBLAS
     INCLUDE "mkl_spblas.f90" 
 #endif
-!! \endcond
+!! @endcond
 
+!> Defines a module of simple mathematical operations.
 MODULE mo_square
 
 #ifdef FFTPACK
@@ -22,6 +21,7 @@ MODULE mo_square
     PRIVATE
 
     PUBLIC :: sum_cube_square
+    PUBLIC :: square 
 
 CONTAINS
 
@@ -35,7 +35,6 @@ CONTAINS
 
     !> @brief Computes the cube of a real number.
     PURE REAL FUNCTION cube(x) result(r)
-        ! An undocumented function
         REAL, INTENT(in) :: x
         r = x**3
     END FUNCTION cube
