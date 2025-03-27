@@ -4,7 +4,7 @@ option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 option(BUILD_TESTING "Build tests" OFF)
 
 option(ENABLE_SPBLAS "Build with SPBLAS" ON)
-option(ENABLE_FIND_INTEL_MKL "Find intel MKL config" OFF)
+option(ENABLE_FIND_INTEL_MKL "Find intel MKL config" ON)
 
 option(ENABLE_FFTPACK "Build with fftpack" OFF)
 option(ENABLE_PFUNIT "Build with pFUnit" OFF)
@@ -20,22 +20,16 @@ project(
 # Set paths to Intel oneAPI MKL
 if(${ENABLE_SPBLAS})
     if (${ENABLE_FIND_INTEL_MKL})
-        #find_package(MKL CONFIG)
+        # automatically set paths (preferred option)
         find_package(MKL REQUIRED)
-        #get_target_property(MKLINCLUDE MKL::MKL INTERFACE_INCLUDE_DIRECTORIES)
-    endif()
-   
-    # manually set MKL vars  
-    if (NOT MKL_FOUND)
-        message(STATUS "Did not find MKL, trying to use env vars/user input")
+    else()
+        # manually set paths
         set(MKLROOT $ENV{MKLROOT} CACHE PATH "Installation directory of Intel MKL")
         if (NOT MKLROOT)
             message(FATAL_ERROR "MKLROOT environment variable is not set.")
         endif()
         set(MKLLIB ${MKLROOT}/lib CACHE PATH "Path to Intel MKL Libraries")
         set(MKLINCLUDE ${MKLROOT}/include/ CACHE PATH "Path to Intel MKL include files")
-    else()
-        message(STATUS "Found MKL")
     endif()
 endif()
 
