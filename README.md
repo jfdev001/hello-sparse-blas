@@ -4,7 +4,9 @@ Demonstrate sparse matrix-vector multiplication with Intel MKL. Also has
 various cmake structural components that are intended to be for generic 
 projects.
 
-Can easily use `pFUnit` or `test-drive` for unit testing.
+Can easily use `pFUnit` or `test-drive` for unit testing. Prefer `test-drive`
+for lighweight unit testing since `pFUnit` still has some inconvenient
+issues at the time of this writing (see https://github.com/Goddard-Fortran-Ecosystem/pFUnit/issues/486 and https://github.com/Goddard-Fortran-Ecosystem/pFUnit/issues/483).
 
 Make sure you have the [Intel oneAPI HPC Toolkit](https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit-download.html?packages=hpc-toolkit&hpc-toolkit-os=linux&hpc-toolkit-lin=apt) or [Intel Fortran Essentials](https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit-download.html?packages=fortran-essentials&fortran-essentials-os=linux&fortran-essentials-lin=apt).
  

@@ -13,8 +13,10 @@ MODULE mo_square
 #endif
 
 #ifdef INTEL_SPBLAS
-     USE mkl_spblas
+    USE mkl_spblas
 #endif
+
+    USE mo_dummy, ONLY: add_two
 
     IMPLICIT NONE
 
@@ -42,6 +44,8 @@ CONTAINS
     !> @brief Computes the sum of the cube and square of a real number
     PURE REAL FUNCTION sum_cube_square(x) result(r)
         REAL, INTENT(in) :: x   
+        REAL :: dummy
+        dummy = add_two(2.0)
         r = square(x) + cube(x)
     END FUNCTION sum_cube_square  
 

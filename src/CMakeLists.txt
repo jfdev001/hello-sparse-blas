@@ -2,6 +2,7 @@
 set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 set(HelloSPBLAS_SOURCES
     ${dir}/mo_square.f90
+    ${dir}/mo_dummy.f90
 )
 
 # modified from fftpack/CMakeLists.txt and stdlib/src/CMakeLists.txt
@@ -37,8 +38,6 @@ if(${ENABLE_SPBLAS})
     target_compile_definitions(${PROJECT_NAME} PRIVATE INTEL_SPBLAS)
     link_spblas(${PROJECT_NAME})    
 endif()
-
-
 
 # installation/configuration steps (modified from fotran-lang/stdlib)
 install(

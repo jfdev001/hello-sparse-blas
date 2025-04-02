@@ -17,7 +17,9 @@ set(DOXYGEN_SOURCE_BROWSER YES)
 set(DOXYGEN_REFERENCED_BY_RELATION NO) 
 set(DOXYGEN_REFERENCES_RELATION NO)
 
-set(DOXYGEN_ENABLE_PREPROCESSING NO) # https://stackoverflow.com/questions/26043007/make-doxygen-document-the-ifdef-parts-too
+set(DOXYGEN_ENABLE_PREPROCESSING YES) # https://www.doxygen.nl/manual/config.html#cfg_include_graph
+set(DOXYGEN_INCLUDED_BY_GRAPH YES)
+set(DOXYGEN_INCLUDE_GRAPH YES)
 
 doxygen_add_docs(doxygen_docs
     ${PROJECT_SOURCE_DIR}/src
