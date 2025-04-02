@@ -1,0 +1,74 @@
+# Boiler plate CI that needs adjustment 
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read  # Required for actions/checkout
+  pages: write     # Required for GitHub Pages deployment
+  id-token: write  # Required for OIDC authentication
+
+jobs:
+  #lint:
+    #name: Lint Code & License
+    #runs-on: ubuntu-latest
+    #steps:
+      #- name: Checkout repository
+        #uses: actions/checkout@v4
+
+      #- name: Install fprettify & reuse
+        #run: |
+          #pip install fprettify
+          #sudo apt install -y reuse
+
+      #- name: Check formatting with fprettify
+        #run: fprettify --recursive src/
+
+      #- name: Check license headers with REUSE
+        #run: reuse lint
+
+  build-test-docs:
+    name: Build, Test & Generate Docs
+    runs-on: ubuntu-latest
+    #needs: lint
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt install -y gfortran cmake ninja doxygen graphviz
+
+      - name: Configure CMake
+        run: cmake -S . -B build \
+          -DCMAKE_Fortran_COMPILER=gfortran \
+          -DBUILD_TESTING=ON \
+          -DENABLE_TEST_DRIVE=ON \
+          -DENABLE_PFUNIT=OFF \
+          -DENABLE_ENABLE_SPBLAS=OFF \
+          -DCMAKE_INSTALL_PREFIX=build/installed 
+
+        # TODO: could split up these phases 
+      - name: Build, Test & Docs
+        run: |
+          cmake --build build 
+          cmake --build build --target testlib
+          cmake --build build --target doxygen_docs
+
+      - name: Upload documentation artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: build/docs  # Adjust this if Doxygen output path differs
+
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: build-test-docs
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Deploy 🚀
+        uses: actions/deploy-pages@v2
+

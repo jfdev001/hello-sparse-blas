@@ -71,3 +71,11 @@ to their (a) wide-spread use and/or (b) credibility from expert authorship.
 * Doxygen real Fortran examples: [NOAA-ECM/fv3atm](https://github.com/NOAA-EMC/fv3atm/tree/41df0d88e4c11a8ba239c52605648cafed47acd7)
 * [Creating CMake libraries that others can find and use](https://www.youtube.com/watch?v=08f5Dav72aE)
 * [fortran-lang/stdlib](https://github.com/fortran-lang/stdlib) for more cmake structure
+
+# Developer Notes
+
+* code coverage and intel compiler: https://community.intel.com/t5/Intel-Fortran-Compiler/Fortran-compile-flags-for-code-coverage-report/m-p/1564083#M170454%3Fprofile.language=en
+* gcovr 
+* dolfinx uses one-api env (see docker and workflows)
+* could add custom target for format (see libfortran-support)
+* pre-commit 

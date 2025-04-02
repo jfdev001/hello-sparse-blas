@@ -1,0 +1,21 @@
+repos:
+  - repo: local
+    hooks:
+      # Hook for fprettify (Fortran code formatting)
+      - id: fprettify
+        name: fprettify
+        # should be same as cmake format 
+        entry: fprettify --case 2 2 2 1 --indent 2 --whitespace 2 --strip-comments 
+        language: system
+        types: [file]
+        files: '\.(f|F)(90|95|03|08)?$'
+        pass_filenames: false  # Ensures it runs on all Fortran files
+
+      # Hook for REUSE lint (License compliance)
+      - id: reuse-lint
+        name: reuse lint
+        entry: reuse lint
+        language: system
+        types: [file]
+        pass_filenames: false  # Ensures it runs on the whole repository
+

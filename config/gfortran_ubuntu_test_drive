@@ -1,0 +1,18 @@
+#!/usr/bin/bash
+builddocs=$1
+curdir=$(pwd)
+[[ $curdir == *"config"* ]] && echo "must be in root project dir" && exit 1 
+#[[ -d build-gfortran ]] && rm -rf build-gfortran
+cmake -S . -B build-gfortran\
+    -DCMAKE_Fortran_COMPILER=gfortran\
+    -DBUILD_TESTING=ON\
+    -DENABLE_TEST_DRIVE=ON\
+    -DENABLE_FFTPACK=OFF\
+    -DENABLE_SPBLAS=OFF\
+    -DENABLE_FIND_INTEL_MKL=OFF\
+    -DENABLE_PFUNIT=OFF\
+    -DCMAKE_INSTALL_PREFIX=build-gfortran/installed
+cmake --build build-gfortran
+cmake --build build-gfortran --target install
+cmake --build build-gfortran --target testlib 
+[[ -n $builddocs ]] && cmake --build build-gfortran --target doxygen_docs 

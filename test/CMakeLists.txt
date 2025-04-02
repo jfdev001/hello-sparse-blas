@@ -25,13 +25,12 @@ if(${ENABLE_SPBLAS})
 endif()
 
 # Add pfunit tests
-if (${ENABLE_PFUNIT}) 
+if (${ENABLE_PFUNIT})
     add_pfunit_ctest (test_square
         TEST_SOURCES test_square.pf
         LINK_LIBRARIES ${PROJECT_NAME}
-        LABELS "myproject" 
+        LABELS "test_${PROJECT_NAME}" 
     )
-    # TODO: more tests with the same label as above (e.g., testlib)
 endif()
 
 # Add test-drive tests
@@ -41,5 +40,15 @@ if (${ENABLE_TEST_DRIVE})
         test_square_with_test_drive.f90 # files containing tests 
         test_drive_tester.f90           # must have this driver! 
     )    
-    build_tests(test_drive_square_tests ${TEST_DRIVE_SOURCES})
+    build_tests(test_${PROJECT_NAME} ${TEST_DRIVE_SOURCES})
 endif()
+
+if (${BUILD_TESTING}) 
+    # TODO: untested with Pfunit since it may need -L flag instead... 
+    add_custom_target(testlib
+        COMMAND ctest --test-dir ${PROJECT_BINARY_DIR} -R test_${PROJECT_NAME} --output-on-failure
+        WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
+        COMMENT "Running ${PROJECT_NAME} tests..."
+        VERBATIM
+    )
+endif() 

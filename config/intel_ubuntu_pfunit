@@ -12,6 +12,6 @@ cmake -S . -B build\
     -DCMAKE_INSTALL_PREFIX=build/installed
 cmake --build build
 cd build
-ctest -L myproject 
+ctest -L testlib 
 ./build/test/test_spblas
 )
