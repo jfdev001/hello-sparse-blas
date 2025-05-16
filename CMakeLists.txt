@@ -17,6 +17,14 @@ project(
     LANGUAGES Fortran
 )
 
+# Safety net (https://numpy.org/doc/stable/f2py/buildtools/skbuild.html#cmake-modules-only)
+if(PROJECT_SOURCE_DIR STREQUAL PROJECT_BINARY_DIR)
+  message(
+    FATAL_ERROR
+      "In-source builds not allowed. Please make a new directory (called a build directory) and run CMake from there.\n"
+  )
+endif()
+
 # Set paths to Intel oneAPI MKL
 if(${ENABLE_SPBLAS})
     if (${ENABLE_FIND_INTEL_MKL})
