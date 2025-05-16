@@ -7,6 +7,7 @@ curdir=$(pwd)
 [[ $curdir == *"config"* ]] && echo "must be in root project dir" && exit 1 
 #[[ -d build ]] && rm -rf build
 cmake -S . -B build\
+    -DCMAKE_BUILD_PARALLEL_LEVEL=8\
     -DCMAKE_Fortran_COMPILER=ifx\
     -DBUILD_TESTING=ON\
     -DENABLE_TEST_DRIVE=ON\

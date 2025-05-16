@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 
+message(STATUS "nthreads ==> ${CMAKE_BUILD_PARALLEL_LEVEL}")
+
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 option(BUILD_TESTING "Build tests" OFF)
 
