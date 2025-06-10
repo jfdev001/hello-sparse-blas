@@ -12,6 +12,7 @@ Then, you can configure, build, and run tests for the project.
 
 ```shell 
 # test-drive builds faster than pfunit
+mkdir build
 ./config/intel_ubuntu_test_drive_fftpack_spblas
 ```
 
@@ -20,6 +21,7 @@ you can do this with the flags during configuration. The below bash
 script does the necessary configuration, as an example, for DKRZ's Levante.
 
 ```shell
+mkdir build
 ./config/intel_levante_pfunit
 ```
 
@@ -35,6 +37,8 @@ You can also check to see if a downstream project can find/fetch this package.
 
 ```
 (
+mkdir build
+./config/intel_ubuntu_test_drive_fftpack_spblas 
 cd build 
 make install
 cd ..
