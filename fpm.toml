@@ -1,0 +1,15 @@
+name = "hello-sparse-blas"
+version = "0.1.0"
+license = "BSD 3"
+maintainer = ["@jfdev001"]
+author = ["Jared Frazier"]
+description = "Demo sparse BLAS operations with IntelMKL plus optional deps"
+
+[dependencies]
+[dependencies.pFUnit]
+git = "https://github.com/Goddard-Fortran-Ecosystem/pFUnit"
+rev = "cf37fb694f7c015d3718c1b4f7f3e9a56613067a"
+[dependencies.test-drive]
+git = "https://github.com/fortran-lang/test-drive"
+[dependencies.fftpack]
+git = "https://github.com/fortran-lang/fftpack"
