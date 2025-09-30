@@ -6,7 +6,7 @@ FIND_INTEL_MKL="${FIND_INTEL_MKL:-$DEFAULT_FIND_INTEL_MKL}"
 (
 curdir=$(pwd)
 [[ $curdir == *"config"* ]] && echo "must be in root project dir" && exit 1 
-#[[ -d build ]] && rm -rf build
+[[ -d build ]] && rm -rf build
 cmake -S . -B build\
     -DCMAKE_Fortran_COMPILER=ifx\
     -DBUILD_TESTING=ON\

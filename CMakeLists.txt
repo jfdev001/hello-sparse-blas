@@ -47,7 +47,7 @@ include("${PROJECT_SOURCE_DIR}/cmake/helper.cmake")
 # build dependenciesals with specified version corresponding to git tag 
 include(FetchContent)
 message(STATUS "Build dependencies")
-set(fftpack_GIT_TAG main)
+set(fftpack_GIT_TAG d956809f3e6102f3035b406666688faf5f6701e5)
 set(pFUnit_GIT_TAG cf37fb694f7c015d3718c1b4f7f3e9a56613067a) # fixes fetch content
 set(test-drive_GIT_TAG main)
 add_subdirectory(dependencies)
