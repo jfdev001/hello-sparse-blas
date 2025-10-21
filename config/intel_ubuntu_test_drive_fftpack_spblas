@@ -1,28 +1,85 @@
 #!/usr/bin/bash
+#
 # @brief Baseline configuration assuming standard oneapi installation via apt.
+# 
 builddocs=$1
+
+usage=$(cat << EOF 
+usage: $0 [-h,--help] [builddocs={0,1}]
+
+positional arguments:
+    builddocs          Build documentation (not built by default).
+
+Environment variables (set ON or OFF):
+    FIND_INTEL_MKL     Use find_package to find Intel math kernel lib.
+    BUILD              Rebuild library.
+    BUILD_SHARED_LIBS  Build shared library.
+    TEST               Test library.
+    TEST_DOWNSTREAM    Test downstream repository.
+EOF
+)
+
+if [[ $builddocs == "-h" || $builddocs == "--help" ]]
+then
+    echo "$usage"
+    exit 0 
+fi
+
+DEFAULT_BUILD="ON"
+BUILD="${BUILD:-$DEFAULT_BUILD}"
+
 DEFAULT_FIND_INTEL_MKL="ON"
 FIND_INTEL_MKL="${FIND_INTEL_MKL:-$DEFAULT_FIND_INTEL_MKL}"
-(
+
+DEFAULT_BUILD_SHARED_LIBS="ON"
+BUILD_SHARED_LIBS="${BUILD_SHARED_LIBS:-$DEFAULT_BUILD_SHARED_LIBS}"
+
+DEFAULT_TEST="ON"
+TEST="${TEST:-$DEFAULT_TEST}"
+
+DEFAULT_TEST_DOWNSTREAM="OFF"
+TEST_DOWNSTREAM="${TEST_DOWNSTREAM:-$DEFAULT_TEST_DOWNSTREAM}"
+
 curdir=$(pwd)
 [[ $curdir == *"config"* ]] && echo "must be in root project dir" && exit 1 
-[[ -d build ]] && rm -rf build
-cmake -S . -B build\
-    -DCMAKE_Fortran_COMPILER=ifx\
-    -DBUILD_TESTING=ON\
-    -DENABLE_TEST_DRIVE=ON\
-    -DENABLE_FFTPACK=ON\
-    -DENABLE_SPBLAS=ON\
-    -DENABLE_FIND_INTEL_MKL=${FIND_INTEL_MKL}\
-    -DENABLE_PFUNIT=OFF\
-    -DCMAKE_INSTALL_PREFIX=build/installed
-cmake --build build
-cmake --build build --target install
-cd build
-# name from test/CMakeLists.txt build_tests(FIRST_ARG ...)
-ctest -R test_drive_square_tests
-test/test_spblas
+if [[ $BUILD == "ON" ]]
+then 
+    [[ -d build ]] && rm -rf build
+    cmake -S . -B build\
+        -DCMAKE_Fortran_COMPILER=ifx\
+        -DBUILD_TESTING=ON\
+        -DENABLE_TEST_DRIVE=ON\
+        -DENABLE_FFTPACK=ON\
+        -DENABLE_SPBLAS=ON\
+        -DENABLE_FIND_INTEL_MKL=${FIND_INTEL_MKL}\
+        -DENABLE_PFUNIT=OFF\
+        -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}\
+        -DCMAKE_INSTALL_PREFIX=build/installed
+    cmake --build build
+    cmake --build build --target install
+fi
+
+if [[ $TEST == "ON" ]]
+then 
+    (
+    cd build
+
+    # name from test/CMakeLists.txt build_tests(FIRST_ARG ...)
+    ctest -R test_drive_square_tests
+    test/test_spblas
+    )
+fi 
+
 # build docs
-[[ -n $builddocs ]] && cmake --build . --target doxygen_docs 
-)
+[[ -n $builddocs ]] && cmake --build build --target doxygen_docs 
+
+# Optionally test downstream repository 
+if [[ $TEST_DOWNSTREAM == "ON" ]] 
+then 
+    (
+    cd $curdir 
+    cd test/downstream_project/
+    config/local
+    )
+fi
 
