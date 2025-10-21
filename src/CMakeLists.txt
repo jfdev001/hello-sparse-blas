@@ -64,13 +64,14 @@ write_basic_package_version_file(
 )
 
 # modified from test-drive/config/CMakeLists.txt  
+# and from fftpack/config/CMakeLists.txt
 configure_package_config_file(
   "${PROJECT_SOURCE_DIR}/cmake/${PROJECT_NAME}Config.cmake.in"
   "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
   INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
 )
 
-# from fftpack/install/CMakeLists.txt
+# NOTE: only useful if NOT installing library.... so not strictly necessary
 export(
     EXPORT ${PROJECT_NAME}Targets 
     FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}Targets.cmake
